@@ -17,7 +17,7 @@ private slots:
     void open_about_window() const;
     void open_password_window();
     void open_game_window();
-    void open_prep_window();
+    void open_nelin_window();
     void open_con_window();
     void open_constr_window();
 private:
@@ -35,7 +35,7 @@ private:
     //QPushButton* _pass;
     //QPushButton *start_with_con;
     QPushButton *start_with_rand;
-    //QPushButton *start_with_settings;
+    QPushButton *start_with_nelin;
     //QPushButton *start_with_prep;
     QPushButton *help_;
     QPushButton *about_;

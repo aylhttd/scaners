@@ -175,9 +175,13 @@ public:
     virtual void keyPressEvent(QKeyEvent *event);
     virtual void mousePressEvent(QMouseEvent *mEvent);
     void light_switch(int level);
+    void switch_formants(pair<int, int> kol_of_second_formant_and_third_formant_lights);
     void add_frames();
     bool set_number_of_zakl(int active, int passive);
     //bool eventFilter(QObject *obj, QEvent *event);
+
+    bool is_this_nelin_game = false;
+    bool is_this_rand_game = false;
 
     Hero* _hero;
     int height_of_map;
@@ -209,6 +213,8 @@ protected:
     map<pair<int, int>, type_of_zakladka> map_of_finded_zakl;
     vector<vector<type_of_zakladka>> vec_of_zakl;
     vector<vector<int>> vec_lights;
+
+    vector<vector<pair<int, int>>> vec_of_powers;
 
     map<pair<int, int>, Pixmap*>  map_with_red_squares;
     list<Pixmap*> list_of_lamps;

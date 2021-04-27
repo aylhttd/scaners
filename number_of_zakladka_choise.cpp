@@ -117,6 +117,10 @@ void change_size::OK_clicked()
     //w.showMaximized();
     if(this->is_this_will_be_random_game){
         auto* randome_game_ = new MainWindow(nullptr, (int)(QApplication::screens().at(0)->availableSize().width()-250)/64/0.42-1, (int)(QApplication::screens().at(0)->availableSize().height())/64/0.42, this->active->text().toInt(), this->passive->text().toInt());
+        if(this->is_this_will_be_random_game)
+            randome_game_->is_this_rand_game = true;
+        else if(this->is_this_will_be_nelin_game)
+            randome_game_->is_this_nelin_game = true;
         //randome_game_->set_number_of_zakl(this->active->text().toInt(), this->passive->text().toInt());
         randome_game_->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint);
         randome_game_->setWindowTitle("ИГРА");

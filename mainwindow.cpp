@@ -72,47 +72,25 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
     this->add_hero();
     this->add_zakl();
 
-    this->vec_lights.resize(height);
+    if(this->is_this_nelin_game){
+        this->vec_of_powers.resize(this->height_of_map);
 
-    for(auto &obj : this->vec_lights)
-        obj.resize(weight);
+        for(auto obj : this->vec_of_powers)
+            obj.resize(this->weight_of_map, make_pair(1, 1));
 
-    vector<double> vec_of_power_active;
-    vec_of_power_active.reserve(this->chislo_aktivnyx_zakladok);
+        //размещай тут свои всратые текстуры, диман
+    }
 
-    vector<double> vec_of_power_passive;
-    vec_of_power_passive.reserve(this->chislo_passivnix_zakladok);
-
-    for(int i = 0; i < height_of_map; ++i)
-        for(int j = 0; j < height_of_map; ++j){
-            for(auto &obj : this->map_of_all_zakl){
-               if(obj.second == active_)
-                    vec_of_power_active.push_back(3 * exp(-((pow(i - obj.first.first, 2)) / 3 + (pow(j - obj.first.second, 2)) / 5)));
-               else
-                    vec_of_power_passive.push_back(3 * exp(-(abs(i-obj.first.first * 3) + (abs(j-obj.first.second * 5)))));
-           }
-
-            double max_of_active = *std::max_element(vec_of_power_active.begin(), vec_of_power_active.end());
-            int lights_of_active = round(max_of_active / 3 * 9);
-
-            double max_of_passive = *std::max_element(vec_of_power_passive.begin(), vec_of_power_passive.end());
-            int lights_of_passive = round(max_of_passive / 3 * 9);
-
-            //lights_of_active > lights_of_passive ? this->light_switch(lights_of_active) : this->light_switch(lights_of_passive);
-            if(lights_of_active > lights_of_passive)
-                this->vec_lights[i][j] = lights_of_active;
-            else
-                this->vec_lights[i][j] = lights_of_passive;
-        }
-
-    QString cntr = "";
-    for (int i =0; i<this->map_of_all_zakl.size(); ++i)
-        cntr+="◻\n";
-    this->counter_ooo->setPlainText(cntr);
-    this->counter_ooo->setFont(QFont("Times new roman", 24, QFont::Bold));
-    this->counter_ooo->setPos(100, 500);
-    this->counter_ooo->update();
-    this->scene_for_lights->addItem(counter_ooo);
+    if(this->is_this_rand_game){
+        QString cntr = "";
+        for (int i =0; i<this->map_of_all_zakl.size(); ++i)
+            cntr+="◻\n";
+        this->counter_ooo->setPlainText(cntr);
+        this->counter_ooo->setFont(QFont("Times new roman", 24, QFont::Bold));
+        this->counter_ooo->setPos(100, 500);
+        this->counter_ooo->update();
+        this->scene_for_lights->addItem(counter_ooo);
+    }
 
 }
 
@@ -280,7 +258,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
              double max_of_passive = *std::max_element(vec_of_power_passive.begin(), vec_of_power_passive.end());
              int lights_of_passive = round(max_of_passive / 3 * 9);
 
-             lights_of_active > lights_of_passive ? this->light_switch(lights_of_active) : this->light_switch(lights_of_passive);
+             if(this->is_this_rand_game)
+                lights_of_active > lights_of_passive ? this->light_switch(lights_of_active) : this->light_switch(lights_of_passive);
+             else
+                 this->switch_formants(make_pair(lights_of_active, lights_of_passive));
              //this->light_switch( this->vec_lights[this->_hero->coordinate.first][this->_hero->coordinate.second]);
                 //this->add_frames();
 
@@ -325,7 +306,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             double max_of_passive = *std::max_element(vec_of_power_passive.begin(), vec_of_power_passive.end());
             int lights_of_passive = round(max_of_passive / 3 * 9);
 
-            lights_of_active > lights_of_passive ? this->light_switch(lights_of_active) : this->light_switch(lights_of_passive);
+            if(this->is_this_rand_game)
+               lights_of_active > lights_of_passive ? this->light_switch(lights_of_active) : this->light_switch(lights_of_passive);
+            else
+                this->switch_formants(make_pair(lights_of_active, lights_of_passive));
             //this->light_switch( this->vec_lights[this->_hero->coordinate.first][this->_hero->coordinate.second]);
                 //this->add_frames();
 
@@ -371,7 +355,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             double max_of_passive = *std::max_element(vec_of_power_passive.begin(), vec_of_power_passive.end());
             int lights_of_passive = round(max_of_passive / 3 * 9);
 
-            lights_of_active > lights_of_passive ? this->light_switch(lights_of_active) : this->light_switch(lights_of_passive);
+            if(this->is_this_rand_game)
+               lights_of_active > lights_of_passive ? this->light_switch(lights_of_active) : this->light_switch(lights_of_passive);
+            else
+                this->switch_formants(make_pair(lights_of_active, lights_of_passive));
             //this->light_switch( this->vec_lights[this->_hero->coordinate.first][this->_hero->coordinate.second]);
                 //this->add_frames();
 
@@ -417,7 +404,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             double max_of_passive = *std::max_element(vec_of_power_passive.begin(), vec_of_power_passive.end());
             int lights_of_passive = round(max_of_passive / 3 * 9);
 
-            lights_of_active > lights_of_passive ? this->light_switch(lights_of_active) : this->light_switch(lights_of_passive);
+            if(this->is_this_rand_game)
+               lights_of_active > lights_of_passive ? this->light_switch(lights_of_active) : this->light_switch(lights_of_passive);
+            else
+                this->switch_formants(make_pair(lights_of_active, lights_of_passive));
             //this->light_switch( this->vec_lights[this->_hero->coordinate.first][this->_hero->coordinate.second]);
                 //this->add_frames();
 
@@ -597,6 +587,11 @@ void MainWindow::light_switch(int level)
         list_of_l.push_back(lamps);
 
         //delete x;
+}
+
+void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_formant_lights)
+{
+    //пиши тут свое говно, дима
 }
 
 void MainWindow::add_frames() {

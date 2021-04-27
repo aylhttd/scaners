@@ -31,12 +31,12 @@ mainmenu::mainmenu(QWidget *parent)
     start_with_rand->setFont(font_for_buttons);
     vbox->addWidget(start_with_rand);
 
-    /*start_with_con = new QPushButton("Режим готовой конфигурации", this);
-    start_with_con->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    start_with_con->setCursor(QCursor(Qt::PointingHandCursor));
-    start_with_con->setStyleSheet("QPushButton {     background-color: rgba(170, 85, 255, 100);     border-style: outset;     border-width: 2px;	border-radius: 10px;     border-color: rgb(85, 0, 127);     min-width: 10em;     padding:12px;} QPushButton:hover {     background-color:rgba(170, 0, 0, 100);     border-style: outset;     border-width: 2px;     border-radius: 10px;     font: bold 26px;     min-width: 10em;     padding: 6px}");
-    start_with_con->setFont(font_for_buttons);
-    vbox->addWidget(start_with_con);*/
+    start_with_nelin = new QPushButton("Режим нелинейного сканера", this);
+    start_with_nelin->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    start_with_nelin->setCursor(QCursor(Qt::PointingHandCursor));
+    start_with_nelin->setStyleSheet("QPushButton {     background-color: rgba(170, 85, 255, 100);     border-style: outset;     border-width: 2px;	border-radius: 10px;     border-color: rgb(85, 0, 127);     min-width: 10em;     padding:12px;} QPushButton:hover {     background-color:rgba(170, 0, 0, 100);     border-style: outset;     border-width: 2px;     border-radius: 10px;     font: bold 26px;     min-width: 10em;     padding: 6px}");
+    start_with_nelin->setFont(font_for_buttons);
+    vbox->addWidget(start_with_nelin);
 
     /*start_with_prep = new QPushButton("Режим с преподавателем", this);
     start_with_prep->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -115,7 +115,7 @@ mainmenu::mainmenu(QWidget *parent)
     connect(help_, &QPushButton::clicked, this, &mainmenu::open_help_window);
     connect(about_, &QPushButton::clicked, this, &mainmenu::open_about_window);
     connect(start_with_rand, &QPushButton::clicked, this, &mainmenu::open_game_window);
-    //connect(start_with_prep, &QPushButton::clicked, this, &mainmenu::open_prep_window);
+    connect(start_with_nelin, &QPushButton::clicked, this, &mainmenu::open_nelin_window);
     //connect(start_with_settings, &QPushButton::clicked, this, &mainmenu::open_constr_window);
     //connect(_pass, &QPushButton::clicked, this, &mainmenu::open_password_window);
     //connect(start_with_con, &QPushButton::clicked, this, &mainmenu::open_con_window);
@@ -177,24 +177,19 @@ void mainmenu::open_password_window()
 void mainmenu::open_game_window()
 {
     auto change_size_ = new change_size(this);
+    change_size_->is_this_will_be_random_game = true;
+    change_size_->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
+    change_size_->setWindowTitle("Выберете количество закладок");
+    change_size_->showFullScreen();    
+}
+
+void mainmenu::open_nelin_window()
+{
+    auto change_size_ = new change_size(this);
+    change_size_->is_this_will_be_nelin_game = true;
     change_size_->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
     change_size_->setWindowTitle("Выберете количество закладок");
     change_size_->showFullScreen();
-    change_size_->is_this_will_be_random_game = true;
-
-
-}
-
-void mainmenu::open_prep_window()
-{
-   /* if(!this->is_password_true)   //TODO УБРАТЬ КОММЕНТЫ ТУТ, СЕЙЧАС ЭТО ПРОСТО ДЛЯ ОБЛЕГЧЕНИЯ ОТЛАДКИ КОДА
-        return;
-
-    auto change_size_ = new change_size(this);
-    change_size_->setWindowTitle("Выберете размер карты");
-    change_size_->setWindowFlags(Qt::WindowStaysOnTopHint | Qt::Tool);
-    change_size_->showFullScreen();
-    change_size_->is_this_will_be_prep_game = true;*/
 }
 
 void mainmenu::open_con_window()

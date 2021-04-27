@@ -12,8 +12,7 @@ public:
     ~change_size();
 
     bool is_this_will_be_random_game = false;
-    bool is_this_will_be_prep_game = false;
-    bool is_this_will_be_god_game = false;
+    bool is_this_will_be_nelin_game = false;
 
     void closeEvent(QCloseEvent *event);
 
