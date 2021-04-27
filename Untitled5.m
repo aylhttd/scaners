@@ -1,0 +1,16 @@
+a=1;
+b=2;
+c=3;
+d=-2;
+[X,Y] = meshgrid([-5:0.1:5]);
+[K,M] = meshgrid([-5:0.1:5]);
+Z = 3*exp (-((abs((X-a).*3) + (abs((Y-b).*5)))));
+P = exp (-((abs((K-c).*0.3) + (abs((M-d).*0.5)))));
+figure (1);
+plot3 (X,Y,Z,'g', K,M,P,'r');
+% figure (2);
+% mesh(X,Y,Z);
+% figure (3);
+% mesh(K,M,P);
+figure (4);
+mesh(X,Y,Z+P);

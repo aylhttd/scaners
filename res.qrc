@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>dot (1).png</file>
+        <file>full_lamps.png</file>
+        <file>green_light.png</file>
+        <file>kvadrat (1).png</file>
+        <file>kvadrat_1.png</file>
+        <file>red_light.png</file>
+        <file>red_square64x64.png</file>
+        <file>yellow_light.png</file>
+        <file>9lamps.png</file>
+        <file>8lamps.png</file>
+        <file>7lamps.png</file>
+        <file>6lamps.png</file>
+        <file>5lamps.png</file>
+        <file>4lamps.png</file>
+        <file>3lamps.png</file>
+        <file>2lamps.png</file>
+        <file>1 lamp.png</file>
+        <file>kvadrat (1)Blue.png</file>
+        <file>frame.png</file>
+    </qresource>
+</RCC>
