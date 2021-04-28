@@ -114,10 +114,13 @@ void change_size::OK_clicked()
         return;
     }*/
 
-
+    MainWindow* randome_game_;
     //w.showMaximized();
-        auto* randome_game_ = new MainWindow(nullptr, (int)(QApplication::screens().at(0)->availableSize().width()-250)/64/0.42-1, (int)(QApplication::screens().at(0)->availableSize().height())/64/0.42, this->active->text().toInt(), this->passive->text().toInt());
-        if(this->is_this_will_be_random_game)
+    if(this->is_this_will_be_random_game)
+        randome_game_ = new MainWindow(nullptr, (int)(QApplication::screens().at(0)->availableSize().width()-250)/64/0.42-1, (int)(QApplication::screens().at(0)->availableSize().height())/64/0.42, this->active->text().toInt(), this->passive->text().toInt(), true);
+    else
+        randome_game_ = new MainWindow(nullptr, (int)(QApplication::screens().at(0)->availableSize().width()-250)/64/0.42-1, (int)(QApplication::screens().at(0)->availableSize().height())/64/0.42, this->active->text().toInt(), this->passive->text().toInt(), false);
+    if(this->is_this_will_be_random_game)
             randome_game_->is_this_rand_game = true;
         else
             if(this->is_this_will_be_nelin_game)

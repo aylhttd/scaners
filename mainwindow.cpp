@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int passive) : QDialog(parent),  height_of_map(height), weight_of_map(weight)
+MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int passive, bool is_this_rand_game) : QDialog(parent),  height_of_map(height), weight_of_map(weight)
 {
     this->set_number_of_zakl(active, passive);
     this->setStyleSheet("background-color: lightGray;");
@@ -15,16 +15,18 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
 
     this->scene = new QGraphicsScene();
     this->scene_for_lights = new QGraphicsScene();
-
-    if (is_this_nelin_game)
-    {
     this->view = new myGraphicsView(scene);
-    this->view_for_lights = new myGraphicsViewForLights(scene_for_lights, false);
+
+
+    if (!is_this_rand_game)
+    {
+        this->is_this_nelin_game = true;
+        this->view_for_lights = new myGraphicsViewForLights(scene_for_lights, false);
     }
 
     if (is_this_rand_game)
     {
-        this->view = new myGraphicsView(scene);
+        this->is_this_rand_game = true;
         this->view_for_lights = new myGraphicsViewForLights(scene_for_lights, true);
     }
 
