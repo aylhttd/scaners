@@ -16,8 +16,17 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
     this->scene = new QGraphicsScene();
     this->scene_for_lights = new QGraphicsScene();
 
+    if (is_this_nelin_game)
+    {
     this->view = new myGraphicsView(scene);
-    this->view_for_lights = new myGraphicsViewForLights(scene_for_lights);
+    this->view_for_lights = new myGraphicsViewForLights(scene_for_lights, false);
+    }
+
+    if (is_this_rand_game)
+    {
+        this->view = new myGraphicsView(scene);
+        this->view_for_lights = new myGraphicsViewForLights(scene_for_lights, true);
+    }
 
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -73,15 +82,23 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
     this->add_zakl();
 
     if(this->is_this_nelin_game){
+        //is_random_game_ = false;
         this->vec_of_powers.resize(this->height_of_map);
 
         for(auto obj : this->vec_of_powers)
             obj.resize(this->weight_of_map, make_pair(1, 1));
 
+        QPixmap* f23 = new QPixmap();
+        f23->load(":/new/prefix1/f23.png");
+        Pixmap *item_23 = new Pixmap(*f23);
+
+        item_23->setVisible(1);
+        this->scene_for_lights->addItem(item_23);
+
         //размещай тут свои всратые текстуры, диман
     }
 
-    if(this->is_this_rand_game){
+
         QString cntr = "";
         for (int i =0; i<this->map_of_all_zakl.size(); ++i)
             cntr+="◻\n";
@@ -90,7 +107,7 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
         this->counter_ooo->setPos(100, 500);
         this->counter_ooo->update();
         this->scene_for_lights->addItem(counter_ooo);
-    }
+
 
 }
 
@@ -591,7 +608,133 @@ void MainWindow::light_switch(int level)
 
 void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_formant_lights)
 {
-    //пиши тут свое говно, дима
+    for(auto* obj : list_of_lamps){
+        this->scene_for_lights->removeItem(obj);
+        delete obj;
+    }
+    list_of_lamps.clear();
+
+    for(auto* obj : list_of_l)
+        delete obj;
+
+    list_of_l.clear();
+
+    int length_of_signal = 100;
+
+    QPixmap* second_formant = new QPixmap();
+    QPixmap* third_formant = new QPixmap();
+
+        switch (kol_of_second_formant_and_third_formant_lights.first) {
+        case 0:
+            //this->scene_for_lights->
+            Beep(250, length_of_signal);
+            second_formant->load(":/new/prefix1/2f0.png");
+            break;
+        case 1:
+            Beep(280, length_of_signal);
+            second_formant->load(":/new/prefix1/2f1.png");
+            break;
+        case 2:
+            Beep(310, length_of_signal);
+            second_formant->load(":/new/prefix1/2f2.png");
+            break;
+        case 3:
+            Beep(340, length_of_signal);
+            second_formant->load(":/new/prefix1/2f3.png");
+            break;
+        case 4:
+            Beep(370, length_of_signal);
+            second_formant->load(":/new/prefix1/2f4.png");
+            break;
+        case 5:
+            Beep(400, length_of_signal);
+            second_formant->load(":/new/prefix1/2f5.png");
+            break;
+        case 6:
+            Beep(430, length_of_signal);
+            second_formant->load(":/new/prefix1/2f6.png");
+            break;
+        case 7:
+            Beep(460, length_of_signal);
+            second_formant->load(":/new/prefix1/2f7.png");
+            break;
+        case 8:
+            Beep(490, length_of_signal);
+            second_formant->load(":/new/prefix1/2f8.png");
+            break;
+        case 9:
+            Beep(520, length_of_signal);
+            second_formant->load(":/new/prefix1/2f9.png");
+            break;
+        default:
+            second_formant->load(":/new/prefix1/2f1.png");
+            break;
+        }
+
+        switch (kol_of_second_formant_and_third_formant_lights.second) {
+        case 0:
+            //this->scene_for_lights->
+            Beep(250, length_of_signal);
+            third_formant->load(":/new/prefix1/3f0.png");
+            break;
+        case 1:
+            Beep(280, length_of_signal);
+            third_formant->load(":/new/prefix1/3f1.png");
+            break;
+        case 2:
+            Beep(310, length_of_signal);
+            third_formant->load(":/new/prefix1/3f2.png");
+            break;
+        case 3:
+            Beep(340, length_of_signal);
+            third_formant->load(":/new/prefix1/3f3.png");
+            break;
+        case 4:
+            Beep(370, length_of_signal);
+            third_formant->load(":/new/prefix1/3f4.png");
+            break;
+        case 5:
+            Beep(400, length_of_signal);
+            third_formant->load(":/new/prefix1/3f5.png");
+            break;
+        case 6:
+            Beep(430, length_of_signal);
+            third_formant->load(":/new/prefix1/3f6.png");
+            break;
+        case 7:
+            Beep(460, length_of_signal);
+            third_formant->load(":/new/prefix1/3f7.png");
+            break;
+        case 8:
+            Beep(490, length_of_signal);
+            third_formant->load(":/new/prefix1/3f8.png");
+            break;
+        case 9:
+            Beep(520, length_of_signal);
+            third_formant->load(":/new/prefix1/3f9.png");
+            break;
+        default:
+            third_formant->load(":/new/prefix1/3f1.png");
+            break;
+        }
+
+        auto item_second = new Pixmap(*second_formant);
+        item_second->setPos(0,0);
+        item_second->setVisible(1);
+        //item_second->setScale(0.6);
+        scene_for_lights->addItem(item_second);
+
+        list_of_lamps.push_back(item_second);
+        list_of_l.push_back(second_formant);
+
+        auto item_third = new Pixmap(*third_formant);
+        item_third->setPos(0,100);
+        item_third->setVisible(1);
+        //item_second->setScale(0.6);
+        scene_for_lights->addItem(item_third);
+
+        list_of_lamps.push_back(item_third);
+        list_of_l.push_back(third_formant);
 }
 
 void MainWindow::add_frames() {

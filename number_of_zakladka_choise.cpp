@@ -92,6 +92,7 @@ void change_size::OK_clicked()
 {
     //OK clicked        TODO
 
+    qDebug() << "Plhfdcndeqnt lj,hsq dtxth";
     if(this->active->text().toInt() > 10 || (this->active->text().toInt() < 0))
         this->active->setText("5");
 
@@ -115,12 +116,12 @@ void change_size::OK_clicked()
 
 
     //w.showMaximized();
-    if(this->is_this_will_be_random_game){
         auto* randome_game_ = new MainWindow(nullptr, (int)(QApplication::screens().at(0)->availableSize().width()-250)/64/0.42-1, (int)(QApplication::screens().at(0)->availableSize().height())/64/0.42, this->active->text().toInt(), this->passive->text().toInt());
         if(this->is_this_will_be_random_game)
             randome_game_->is_this_rand_game = true;
-        else if(this->is_this_will_be_nelin_game)
-            randome_game_->is_this_nelin_game = true;
+        else
+            if(this->is_this_will_be_nelin_game)
+                randome_game_->is_this_nelin_game = true;
         //randome_game_->set_number_of_zakl(this->active->text().toInt(), this->passive->text().toInt());
         randome_game_->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint);
         randome_game_->setWindowTitle("ИГРА");
@@ -133,7 +134,7 @@ void change_size::OK_clicked()
         /*MainWindow w(nullptr, (int)(QApplication::screens().at(0)->availableSize().width())/64/0.42-1, (int)(QApplication::screens().at(0)->availableSize().height()-125)/64/0.42);
         w.setWindowFlags(Qt::FramelessWindowHint| Qt::WindowStaysOnTopHint);
         w.showFullScreen();*/
-    }
+
 
     /*if(this->is_this_will_be_prep_game){
         auto* prepod_game_ = new prepod_game(this, this->passive->text().toInt(), this->active->text().toInt());

@@ -62,6 +62,8 @@
 //namespaces
 using namespace std;
 
+//bool is_random_game_ = true;
+
 class Pixmap : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
@@ -118,10 +120,11 @@ class myGraphicsViewForLights : public QGraphicsView
 {
     Q_OBJECT
 public:
-    myGraphicsViewForLights(QGraphicsScene* scene) {
+    myGraphicsViewForLights(QGraphicsScene* scene, bool flag) {
         //setDragMode(QGraphicsView::ScrollHandDrag);
         this->setScene(scene);
 
+      if(flag) {
       QPixmap* full_lamps = new QPixmap();
       full_lamps->load(":/new/prefix1/1 lamp.png");
       Pixmap *item_full_lamps = new Pixmap(*full_lamps);
@@ -132,6 +135,7 @@ public:
       //item_full_lamps->setRotation(270);
       item_full_lamps->setScale(0.6);
       this->scene()->addItem(item_full_lamps);
+      }
     }
 
 };
