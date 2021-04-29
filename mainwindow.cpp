@@ -14,7 +14,7 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
     this->hbox = new QHBoxLayout(this);
 
     this->scene = new QGraphicsScene();
-    this->scene_for_lights = new QGraphicsScene();
+    this->scene_for_lights = new CustomScene(is_this_rand_game);
     this->view = new myGraphicsView(scene);
 
 
@@ -93,9 +93,28 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
         QPixmap* f23 = new QPixmap();
         f23->load(":/new/prefix1/f23.png");
         Pixmap *item_23 = new Pixmap(*f23);
-
         item_23->setVisible(1);
+        item_23->setScale(0.4);
+
+        QPixmap* f20 = new QPixmap();
+        f20->load(":/new/prefix1/2f0.png");
+        Pixmap *item_20 = new Pixmap(*f20);
+        item_20->setVisible(1);
+        item_20->setScale(0.4);
+        item_20->setPos(80, 80);
+
+        QPixmap* f30 = new QPixmap();
+        f30->load(":/new/prefix1/3f0.png");
+        Pixmap *item_30 = new Pixmap(*f30);
+        item_30->setVisible(1);
+        item_30->setScale(0.4);
+        item_30->setPos(142, 80);
+
         this->scene_for_lights->addItem(item_23);
+
+
+        this->scene_for_lights->addItem(item_30);
+        this->scene_for_lights->addItem(item_20);
 
         //размещай тут свои всратые текстуры, диман
     }
@@ -502,6 +521,7 @@ void MainWindow::mousePressEvent(QMouseEvent *mEvent)
         cntr += "◻\n";
 
     this->counter_ooo->setPlainText(cntr);
+    //this->counter_ooo->setPos(100, this->scene_for_lights->get_item_h()+10);
     this->counter_ooo->update();
 
     if(map_of_finded_zakl.size() == this->map_of_all_zakl.size()){
@@ -540,53 +560,55 @@ void MainWindow::light_switch(int level)
 
     int length_of_signal = 100;
 
+    if(is_antennka_active) {
     QPixmap* lamps = new QPixmap();
         switch (level) {
         case 0:
             //this->scene_for_lights->
             Beep(250, length_of_signal);
-            lamps->load(":/new/prefix1/1 lamp.png");
+            lamps->load(":/new/prefix1/1lamp_A.png");
             break;
         case 1:
             Beep(280, length_of_signal);
-            lamps->load(":/new/prefix1/1 lamp.png");
+            lamps->load(":/new/prefix1/1lamp_A.png");
             break;
         case 2:
             Beep(310, length_of_signal);
-            lamps->load(":/new/prefix1/2lamps.png");
+            lamps->load(":/new/prefix1/2lamps_A.png");
             break;
         case 3:
             Beep(340, length_of_signal);
-            lamps->load(":/new/prefix1/3lamps.png");
+            lamps->load(":/new/prefix1/3lamps_A.png");
             break;
         case 4:
             Beep(370, length_of_signal);
-            lamps->load(":/new/prefix1/4lamps.png");
+            lamps->load(":/new/prefix1/4lamps_A.png");
             break;
         case 5:
             Beep(400, length_of_signal);
-            lamps->load(":/new/prefix1/5lamps.png");
+            lamps->load(":/new/prefix1/5lamps_A.png");
             break;
         case 6:
             Beep(430, length_of_signal);
-            lamps->load(":/new/prefix1/6lamps.png");
+            lamps->load(":/new/prefix1/6lamps_A.png");
             break;
         case 7:
             Beep(460, length_of_signal);
-            lamps->load(":/new/prefix1/7lamps.png");
+            lamps->load(":/new/prefix1/7lamps_A.png");
             break;
         case 8:
             Beep(490, length_of_signal);
-            lamps->load(":/new/prefix1/8lamps.png");
+            lamps->load(":/new/prefix1/8lamps_A.png");
             break;
         case 9:
             Beep(520, length_of_signal);
-            lamps->load(":/new/prefix1/9lamps.png");
+            lamps->load(":/new/prefix1/9lamps_A.png");
             break;
         default:
-            lamps->load(":/new/prefix1/1 lamp.png");
+            lamps->load(":/new/prefix1/1lamps_A.png");
             break;
         }
+
 
 
 
@@ -604,7 +626,7 @@ void MainWindow::light_switch(int level)
 
         list_of_lamps.push_back(this->item);
         list_of_l.push_back(lamps);
-
+}
         //delete x;
 }
 
@@ -629,43 +651,43 @@ void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_
         switch (kol_of_second_formant_and_third_formant_lights.first) {
         case 0:
             //this->scene_for_lights->
-            Beep(250, length_of_signal);
+            //Beep(250, length_of_signal);
             second_formant->load(":/new/prefix1/2f0.png");
             break;
         case 1:
-            Beep(280, length_of_signal);
+            //Beep(280, length_of_signal);
             second_formant->load(":/new/prefix1/2f1.png");
             break;
         case 2:
-            Beep(310, length_of_signal);
+            //Beep(310, length_of_signal);
             second_formant->load(":/new/prefix1/2f2.png");
             break;
         case 3:
-            Beep(340, length_of_signal);
+            //Beep(340, length_of_signal);
             second_formant->load(":/new/prefix1/2f3.png");
             break;
         case 4:
-            Beep(370, length_of_signal);
+            //Beep(370, length_of_signal);
             second_formant->load(":/new/prefix1/2f4.png");
             break;
         case 5:
-            Beep(400, length_of_signal);
+            //Beep(400, length_of_signal);
             second_formant->load(":/new/prefix1/2f5.png");
             break;
         case 6:
-            Beep(430, length_of_signal);
+            //Beep(430, length_of_signal);
             second_formant->load(":/new/prefix1/2f6.png");
             break;
         case 7:
-            Beep(460, length_of_signal);
+            //Beep(460, length_of_signal);
             second_formant->load(":/new/prefix1/2f7.png");
             break;
         case 8:
-            Beep(490, length_of_signal);
+            //Beep(490, length_of_signal);
             second_formant->load(":/new/prefix1/2f8.png");
             break;
         case 9:
-            Beep(520, length_of_signal);
+            //Beep(520, length_of_signal);
             second_formant->load(":/new/prefix1/2f9.png");
             break;
         default:
@@ -676,43 +698,43 @@ void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_
         switch (kol_of_second_formant_and_third_formant_lights.second) {
         case 0:
             //this->scene_for_lights->
-            Beep(250, length_of_signal);
+            //Beep(250, length_of_signal);
             third_formant->load(":/new/prefix1/3f0.png");
             break;
         case 1:
-            Beep(280, length_of_signal);
+            //Beep(280, length_of_signal);
             third_formant->load(":/new/prefix1/3f1.png");
             break;
         case 2:
-            Beep(310, length_of_signal);
+            //Beep(310, length_of_signal);
             third_formant->load(":/new/prefix1/3f2.png");
             break;
         case 3:
-            Beep(340, length_of_signal);
+            //Beep(340, length_of_signal);
             third_formant->load(":/new/prefix1/3f3.png");
             break;
         case 4:
-            Beep(370, length_of_signal);
+            //Beep(370, length_of_signal);
             third_formant->load(":/new/prefix1/3f4.png");
             break;
         case 5:
-            Beep(400, length_of_signal);
+            //Beep(400, length_of_signal);
             third_formant->load(":/new/prefix1/3f5.png");
             break;
         case 6:
-            Beep(430, length_of_signal);
+            //Beep(430, length_of_signal);
             third_formant->load(":/new/prefix1/3f6.png");
             break;
         case 7:
-            Beep(460, length_of_signal);
+            //Beep(460, length_of_signal);
             third_formant->load(":/new/prefix1/3f7.png");
             break;
         case 8:
-            Beep(490, length_of_signal);
+            //Beep(490, length_of_signal);
             third_formant->load(":/new/prefix1/3f8.png");
             break;
         case 9:
-            Beep(520, length_of_signal);
+            //Beep(520, length_of_signal);
             third_formant->load(":/new/prefix1/3f9.png");
             break;
         default:
@@ -720,19 +742,56 @@ void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_
             break;
         }
 
+        auto beep = max(kol_of_second_formant_and_third_formant_lights.first, kol_of_second_formant_and_third_formant_lights.second);
+        switch (beep) {
+        case 0:
+            //this->scene_for_lights->
+            Beep(250, length_of_signal);
+            break;
+        case 1:
+            Beep(280, length_of_signal);
+            break;
+        case 2:
+            Beep(310, length_of_signal);
+            break;
+        case 3:
+            Beep(340, length_of_signal);
+            break;
+        case 4:
+            Beep(370, length_of_signal);
+            break;
+        case 5:
+            Beep(400, length_of_signal);
+            break;
+        case 6:
+            Beep(430, length_of_signal);
+            break;
+        case 7:
+            Beep(460, length_of_signal);
+            break;
+        case 8:
+            Beep(490, length_of_signal);
+            break;
+        case 9:
+            Beep(520, length_of_signal);
+            break;
+        default:
+            break;
+        }
+
         auto item_second = new Pixmap(*second_formant);
-        item_second->setPos(0,0);
+        item_second->setPos(80,80);
         item_second->setVisible(1);
-        //item_second->setScale(0.6);
+        item_second->setScale(0.4);
         scene_for_lights->addItem(item_second);
 
         list_of_lamps.push_back(item_second);
         list_of_l.push_back(second_formant);
 
         auto item_third = new Pixmap(*third_formant);
-        item_third->setPos(0,100);
+        item_third->setPos(142,80);
         item_third->setVisible(1);
-        //item_second->setScale(0.6);
+        item_third->setScale(0.4);
         scene_for_lights->addItem(item_third);
 
         list_of_lamps.push_back(item_third);

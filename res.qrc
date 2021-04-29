@@ -39,5 +39,15 @@
         <file>3f8.png</file>
         <file>3f9.png</file>
         <file>f23.png</file>
+        <file>3f0.png</file>
+        <file>1lamp_A.png</file>
+        <file>2lamps_A.png</file>
+        <file>3lamps_A.png</file>
+        <file>4lamps_A.png</file>
+        <file>5lamps_A.png</file>
+        <file>6lamps_A.png</file>
+        <file>7lamps_A.png</file>
+        <file>8lamps_A.png</file>
+        <file>9lamps_A.png</file>
     </qresource>
 </RCC>

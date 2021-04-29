@@ -64,6 +64,8 @@ using namespace std;
 
 //bool is_random_game_ = true;
 
+static bool is_antennka_active = false;
+
 class Pixmap : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
@@ -76,6 +78,68 @@ public:
     }
     int height;
     int weight;
+};
+
+class CustomScene : public QGraphicsScene
+{
+private:
+    Pixmap *item_lamps;
+    bool is_item_needed;
+public:
+    CustomScene (bool flag = false) : QGraphicsScene(){
+        //this->item_lamps = item;
+        this->is_item_needed = flag;
+    };
+
+    void pushItem(Pixmap* item) {
+        this->item_lamps = item;
+        this->addItem(item);
+    }
+
+    double get_item_h()
+    {
+        return this->item_lamps->height;
+    }
+    void mousePressEvent(QGraphicsSceneMouseEvent *event)
+    {
+        QGraphicsScene::mousePressEvent(event);
+        if (this->is_item_needed) {
+        if(!event->isAccepted()) {
+            if(event->button() == Qt::LeftButton) {
+                if (is_antennka_active) {
+                    this->removeItem(item_lamps);
+                    qDebug() << "Custom scene clicked.";
+                    QPixmap* full_lamps = new QPixmap();
+                    full_lamps->load(":/new/prefix1/1lamp_A.png");
+                    Pixmap *item_full_lamps = new Pixmap(*full_lamps);
+                    //item_full_lamps->setOffset(-kvadrat->width()/2, -kvadrat->height()/2);
+                    item_full_lamps->setPos(0, 0);
+                    item_full_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+                    item_full_lamps->setVisible(1);
+                    //item_full_lamps->setRotation(270);
+                    item_full_lamps->setScale(0.6);
+                    this->pushItem(item_full_lamps);
+                }
+                else {
+                    this->removeItem(item_lamps);
+                    QPixmap* full_lamps = new QPixmap();
+                    full_lamps->load(":/new/prefix1/1 lamp.png");
+                    Pixmap *item_full_lamps = new Pixmap(*full_lamps);
+                    //item_full_lamps->setOffset(-kvadrat->width()/2, -kvadrat->height()/2);
+                    item_full_lamps->setPos(0, 0);
+                    item_full_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
+                    item_full_lamps->setVisible(1);
+                    //item_full_lamps->setRotation(270);
+                    item_full_lamps->setScale(0.6);
+                    this->pushItem(item_full_lamps);
+                }
+
+
+            }
+        }
+        }
+        is_antennka_active = !is_antennka_active;
+    }
 };
 
 class myGraphicsView : public QGraphicsView
@@ -120,9 +184,9 @@ class myGraphicsViewForLights : public QGraphicsView
 {
     Q_OBJECT
 public:
-    myGraphicsViewForLights(QGraphicsScene* scene, bool flag) {
+    myGraphicsViewForLights(CustomScene* scene, bool flag) {
         //setDragMode(QGraphicsView::ScrollHandDrag);
-        this->setScene(scene);
+
 
       if(flag) {
         QPixmap* full_lamps = new QPixmap();
@@ -134,8 +198,9 @@ public:
         item_full_lamps->setVisible(1);
         //item_full_lamps->setRotation(270);
         item_full_lamps->setScale(0.6);
-        this->scene()->addItem(item_full_lamps);
+        scene->pushItem(item_full_lamps);
       }
+      this->setScene(scene);
     }
 
 };
@@ -211,7 +276,7 @@ protected:
     myGraphicsView* view;
     myGraphicsViewForLights* view_for_lights;
     QGraphicsScene* scene;
-    QGraphicsScene* scene_for_lights;
+    CustomScene* scene_for_lights;
 
     map<pair<int, int>, type_of_zakladka> map_of_all_zakl;
     map<pair<int, int>, type_of_zakladka> map_of_finded_zakl;
@@ -223,7 +288,7 @@ protected:
     map<pair<int, int>, Pixmap*>  map_with_red_squares;
     list<Pixmap*> list_of_lamps;
     list<QPixmap*> list_of_l;
-    bool is_antennka_active;
+
 
     Pixmap * item;
 
