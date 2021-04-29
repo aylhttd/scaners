@@ -40,7 +40,7 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
 
 
     scene->setSceneRect(0, 0, 64 * (this->weight_of_map), 64 * (this->height_of_map));
-    //scene_for_lights->setSceneRect(0,35, QApplication::screens().at(0)->availableSize().width(), QApplication::screens().at(0)->availableSize().height()/20);
+    scene_for_lights->setSceneRect(0,0,250,QApplication::screens().at(0)->availableSize().height());
 
 
     hbox->addWidget(view);
@@ -121,8 +121,11 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
 
 
         QString cntr = "";
-        for (int i =0; i<this->map_of_all_zakl.size(); ++i)
-            cntr+="◻\n";
+        for (int i =0; i<this->map_of_all_zakl.size(); ++i) {
+            cntr+="◻ ";
+            if (i%2)
+                cntr+="\n";
+        }
         this->counter_ooo->setPlainText(cntr);
         this->counter_ooo->setFont(QFont("Times new roman", 24, QFont::Bold));
         this->counter_ooo->setPos(100, 500);
@@ -515,10 +518,17 @@ void MainWindow::mousePressEvent(QMouseEvent *mEvent)
     this->map_with_red_squares.insert(make_pair(this->_vibrannaya_kletka, this->_pix_chaged_cell));
 
     QString cntr = "";
-    for (int i = 0; i<map_of_finded_zakl.size(); ++i)
-        cntr += "◼\n";
-    for (int i = 0; i<map_of_all_zakl.size()-map_of_finded_zakl.size(); ++i)
-        cntr += "◻\n";
+    for (int i = 0; i<map_of_finded_zakl.size(); ++i) {
+        cntr += "◼ ";
+        if(i%2)
+            cntr += "\n";
+    }
+    for (int i = map_of_finded_zakl.size(); i<map_of_all_zakl.size(); ++i) {
+        cntr += "◻ ";
+        if(i%2)
+            cntr += "\n";
+    }
+
 
     this->counter_ooo->setPlainText(cntr);
     //this->counter_ooo->setPos(100, this->scene_for_lights->get_item_h()+10);
@@ -547,16 +557,16 @@ void MainWindow::light_switch(int level)
 {
 
 
-    for(auto* obj : list_of_lamps){
+    for(auto* obj : scene_for_lights->list_of_lamps){
         this->scene_for_lights->removeItem(obj);
         delete obj;
     }
-    list_of_lamps.clear();
+    scene_for_lights->list_of_lamps.clear();
 
-    for(auto* obj : list_of_l)
+    for(auto* obj : scene_for_lights->list_of_l)
         delete obj;
 
-    list_of_l.clear();
+    scene_for_lights->list_of_l.clear();
 
     int length_of_signal = 100;
 
@@ -620,28 +630,30 @@ void MainWindow::light_switch(int level)
         this->item->setVisible(1);
         this->item->setScale(0.6);
         //item_lamps->setRotation(270);
-        this->scene_for_lights->addItem(this->item);
+        this->scene_for_lights->pushItem(this->item);
         /*if(this->item != x)
             this->scene_for_lights->removeItem(x);*/
 
-        list_of_lamps.push_back(this->item);
-        list_of_l.push_back(lamps);
+        scene_for_lights->list_of_lamps.push_back(this->item);
+        scene_for_lights->list_of_l.push_back(lamps);
 }
         //delete x;
 }
 
 void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_formant_lights)
 {
-    for(auto* obj : list_of_lamps){
+    for(auto* obj : scene_for_lights->list_of_lamps){
         this->scene_for_lights->removeItem(obj);
         delete obj;
     }
-    list_of_lamps.clear();
+    scene_for_lights->list_of_lamps.clear();
 
-    for(auto* obj : list_of_l)
+    for(auto* obj : scene_for_lights->list_of_l)
         delete obj;
 
-    list_of_l.clear();
+    scene_for_lights->list_of_l.clear();
+
+    scene_for_lights->removeItem(scene_for_lights->item_lamps);
 
     int length_of_signal = 100;
 
@@ -785,8 +797,8 @@ void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_
         item_second->setScale(0.4);
         scene_for_lights->addItem(item_second);
 
-        list_of_lamps.push_back(item_second);
-        list_of_l.push_back(second_formant);
+        scene_for_lights->list_of_lamps.push_back(item_second);
+        scene_for_lights->list_of_l.push_back(second_formant);
 
         auto item_third = new Pixmap(*third_formant);
         item_third->setPos(142,80);
@@ -794,8 +806,8 @@ void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_
         item_third->setScale(0.4);
         scene_for_lights->addItem(item_third);
 
-        list_of_lamps.push_back(item_third);
-        list_of_l.push_back(third_formant);
+        scene_for_lights->list_of_lamps.push_back(item_third);
+        scene_for_lights->list_of_l.push_back(third_formant);
 }
 
 void MainWindow::add_frames() {

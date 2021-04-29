@@ -83,9 +83,12 @@ public:
 class CustomScene : public QGraphicsScene
 {
 private:
-    Pixmap *item_lamps;
+
     bool is_item_needed;
 public:
+    list<Pixmap*> list_of_lamps;
+    list<QPixmap*> list_of_l;
+    Pixmap *item_lamps;
     CustomScene (bool flag = false) : QGraphicsScene(){
         //this->item_lamps = item;
         this->is_item_needed = flag;
@@ -106,8 +109,10 @@ public:
         if (this->is_item_needed) {
         if(!event->isAccepted()) {
             if(event->button() == Qt::LeftButton) {
-                if (is_antennka_active) {
+                if (!is_antennka_active) {
                     this->removeItem(item_lamps);
+                    this->list_of_l.clear();
+                    this->list_of_lamps.clear();
                     qDebug() << "Custom scene clicked.";
                     QPixmap* full_lamps = new QPixmap();
                     full_lamps->load(":/new/prefix1/1lamp_A.png");
@@ -117,16 +122,18 @@ public:
                     item_full_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
                     item_full_lamps->setVisible(1);
                     //item_full_lamps->setRotation(270);
-                    item_full_lamps->setScale(0.6);
+                    item_full_lamps->setScale(0.63217);
                     this->pushItem(item_full_lamps);
                 }
                 else {
                     this->removeItem(item_lamps);
+                    this->list_of_l.clear();
+                    this->list_of_lamps.clear();
                     QPixmap* full_lamps = new QPixmap();
                     full_lamps->load(":/new/prefix1/1 lamp.png");
                     Pixmap *item_full_lamps = new Pixmap(*full_lamps);
                     //item_full_lamps->setOffset(-kvadrat->width()/2, -kvadrat->height()/2);
-                    item_full_lamps->setPos(0, 0);
+                    item_full_lamps->setPos(0, 190.92);
                     item_full_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
                     item_full_lamps->setVisible(1);
                     //item_full_lamps->setRotation(270);
@@ -193,11 +200,13 @@ public:
         full_lamps->load(":/new/prefix1/1 lamp.png");
         Pixmap *item_full_lamps = new Pixmap(*full_lamps);
         //item_full_lamps->setOffset(-kvadrat->width()/2, -kvadrat->height()/2);
-        item_full_lamps->setPos(0, 0);
+        item_full_lamps->setPos(0, 190.92);
         item_full_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
         item_full_lamps->setVisible(1);
         //item_full_lamps->setRotation(270);
         item_full_lamps->setScale(0.6);
+        scene->list_of_l.push_back(full_lamps);
+        scene->list_of_lamps.push_back(item_full_lamps);
         scene->pushItem(item_full_lamps);
       }
       this->setScene(scene);
@@ -286,8 +295,7 @@ protected:
     vector<vector<pair<int, int>>> vec_of_powers;
 
     map<pair<int, int>, Pixmap*>  map_with_red_squares;
-    list<Pixmap*> list_of_lamps;
-    list<QPixmap*> list_of_l;
+
 
 
     Pixmap * item;
