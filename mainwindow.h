@@ -205,8 +205,8 @@ public:
         item_full_lamps->setVisible(1);
         //item_full_lamps->setRotation(270);
         item_full_lamps->setScale(0.6);
-        scene->list_of_l.push_back(full_lamps);
-        scene->list_of_lamps.push_back(item_full_lamps);
+        //scene->list_of_l.push_back(full_lamps);
+        //scene->list_of_lamps.push_back(item_full_lamps);
         scene->pushItem(item_full_lamps);
       }
       this->setScene(scene);

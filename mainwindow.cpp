@@ -120,15 +120,19 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
     }
 
 
+
+    int y = round(this->map_of_all_zakl.size()/2);
         QString cntr = "";
-        for (int i =0; i<this->map_of_all_zakl.size(); ++i) {
-            cntr+="◻\t";
-            if (i%2)
-                cntr+="\n";
-        }
+
+
+           for (int i =0; i<this->map_of_all_zakl.size(); ++i) {
+               cntr+="◻ ";
+               if (i==y)
+                   cntr+="\n";
+                   }
         this->counter_ooo->setPlainText(cntr);
         this->counter_ooo->setFont(QFont("Times new roman", 24, QFont::Bold));
-        this->counter_ooo->setPos(100, QApplication::screens().at(0)->availableSize().height()-150);
+        this->counter_ooo->setPos(10, QApplication::screens().at(0)->availableSize().height()-150);
         this->counter_ooo->update();
         this->scene_for_lights->addItem(counter_ooo);
 
@@ -517,21 +521,22 @@ void MainWindow::mousePressEvent(QMouseEvent *mEvent)
 
     this->map_with_red_squares.insert(make_pair(this->_vibrannaya_kletka, this->_pix_chaged_cell));
 
+    int y = round(this->map_of_all_zakl.size()/2);
     QString cntr = "";
     for (int i = 0; i<map_of_finded_zakl.size(); ++i) {
-        cntr += "◼\t";
-        if(i%2)
-            cntr += "\n";
-    }
-    for (int i = map_of_finded_zakl.size(); i<map_of_all_zakl.size(); ++i) {
-        cntr += "◻\t";
-        if(i%2)
-            cntr += "\n";
-    }
+           cntr += "◼ ";
+           if(i==y)
+               cntr += "\n";
+       }
+       for (int i = map_of_finded_zakl.size(); i<map_of_all_zakl.size(); ++i) {
+           cntr += "◻ ";
+           if(i==y)
+               cntr += "\n";
+       }
 
 
     this->counter_ooo->setPlainText(cntr);
-    this->counter_ooo->setPos(100, QApplication::screens().at(0)->availableSize().height()-150);
+    this->counter_ooo->setPos(10, QApplication::screens().at(0)->availableSize().height()-150);
     this->counter_ooo->update();
 
     if(map_of_finded_zakl.size() == this->map_of_all_zakl.size()){
