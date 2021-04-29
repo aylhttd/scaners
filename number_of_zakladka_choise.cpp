@@ -93,11 +93,17 @@ void change_size::OK_clicked()
     //OK clicked        TODO
 
     qDebug() << "Plhfdcndeqnt lj,hsq dtxth";
-    if(this->active->text().toInt() > 10 || (this->active->text().toInt() < 0))
+    if(this->active->text().toInt() > 5)
         this->active->setText("5");
 
-    if(this->passive->text().toInt() > 10 || (this->passive->text().toInt() < 0))
+    if(this->passive->text().toInt() > 5)
         this->passive->setText("5");
+
+    if(this->active->text().toInt() <= 0)
+        this->active->setText("1");
+
+    if(this->passive->text().toInt() <= 0)
+        this->passive->setText("1");
 
     if(this->active->text()=="")
         this->active->setText("1");

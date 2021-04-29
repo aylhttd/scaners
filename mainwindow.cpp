@@ -194,8 +194,8 @@ void MainWindow::add_zakl()
 
     for(int i = 0; i < chislo_aktivnyx_zakladok; ++i){
         label:
-        int height_of_this_zakl = this->generate_random_int_number(0, this->height_of_map);
-        int weight_of_this_zakl = this->generate_random_int_number(0, this->weight_of_map);
+        int height_of_this_zakl = this->generate_random_int_number(0, this->height_of_map - 1);
+        int weight_of_this_zakl = this->generate_random_int_number(0, this->weight_of_map - 1);
 
         if((height_of_this_zakl == 0 || (weight_of_this_zakl == 0)) || map_of_all_zakl.find(make_pair(height_of_this_zakl, weight_of_this_zakl)) != map_of_all_zakl.end())
             goto label;
@@ -210,8 +210,8 @@ void MainWindow::add_zakl()
 
     for(int i = 0; i < chislo_passivnix_zakladok; ++i){
         label1:
-        int height_of_this_zakl = this->generate_random_int_number(0, this->height_of_map);
-        int weight_of_this_zakl = this->generate_random_int_number(0, this->weight_of_map);
+        int height_of_this_zakl = this->generate_random_int_number(0, this->height_of_map - 1);
+        int weight_of_this_zakl = this->generate_random_int_number(0, this->weight_of_map - 1);
 
         if((height_of_this_zakl == 0 || (weight_of_this_zakl == 0)) || map_of_all_zakl.find(make_pair(height_of_this_zakl, weight_of_this_zakl)) != map_of_all_zakl.end())
             goto label1;
@@ -653,7 +653,7 @@ void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_
 
     scene_for_lights->list_of_l.clear();
 
-    scene_for_lights->removeItem(scene_for_lights->item_lamps);
+    //scene_for_lights->removeItem(scene_for_lights->item_lamps);
 
     int length_of_signal = 100;
 
@@ -755,7 +755,7 @@ void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_
         }
 
         auto beep = max(kol_of_second_formant_and_third_formant_lights.first, kol_of_second_formant_and_third_formant_lights.second);
-        switch (beep) {
+        /*switch (beep) {
         case 0:
             //this->scene_for_lights->
             Beep(250, length_of_signal);
@@ -789,7 +789,7 @@ void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_
             break;
         default:
             break;
-        }
+        }*/
 
         auto item_second = new Pixmap(*second_formant);
         item_second->setPos(80,80);
