@@ -122,13 +122,13 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
 
         QString cntr = "";
         for (int i =0; i<this->map_of_all_zakl.size(); ++i) {
-            cntr+="◻ ";
+            cntr+="◻\t";
             if (i%2)
                 cntr+="\n";
         }
         this->counter_ooo->setPlainText(cntr);
         this->counter_ooo->setFont(QFont("Times new roman", 24, QFont::Bold));
-        this->counter_ooo->setPos(100, 500);
+        this->counter_ooo->setPos(100, QApplication::screens().at(0)->availableSize().height()-150);
         this->counter_ooo->update();
         this->scene_for_lights->addItem(counter_ooo);
 
@@ -519,19 +519,19 @@ void MainWindow::mousePressEvent(QMouseEvent *mEvent)
 
     QString cntr = "";
     for (int i = 0; i<map_of_finded_zakl.size(); ++i) {
-        cntr += "◼ ";
+        cntr += "◼\t";
         if(i%2)
             cntr += "\n";
     }
     for (int i = map_of_finded_zakl.size(); i<map_of_all_zakl.size(); ++i) {
-        cntr += "◻ ";
+        cntr += "◻\t";
         if(i%2)
             cntr += "\n";
     }
 
 
     this->counter_ooo->setPlainText(cntr);
-    //this->counter_ooo->setPos(100, this->scene_for_lights->get_item_h()+10);
+    this->counter_ooo->setPos(100, QApplication::screens().at(0)->availableSize().height()-150);
     this->counter_ooo->update();
 
     if(map_of_finded_zakl.size() == this->map_of_all_zakl.size()){
@@ -567,6 +567,9 @@ void MainWindow::light_switch(int level)
         delete obj;
 
     scene_for_lights->list_of_l.clear();
+
+    if (is_antennka_active)
+        scene_for_lights->removeItem(scene_for_lights->item_lamps);
 
     int length_of_signal = 100;
 
@@ -628,7 +631,7 @@ void MainWindow::light_switch(int level)
         this->item->setPos(0,0);
         //item_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
         this->item->setVisible(1);
-        this->item->setScale(0.6);
+        this->item->setScale(0.63217);
         //item_lamps->setRotation(270);
         this->scene_for_lights->pushItem(this->item);
         /*if(this->item != x)
