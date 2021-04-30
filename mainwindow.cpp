@@ -121,13 +121,13 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
 
 
 
-    int y = round(this->map_of_all_zakl.size()/2);
+    int y = this->map_of_all_zakl.size()/2;
         QString cntr = "";
 
 
            for (int i =0; i<this->map_of_all_zakl.size(); ++i) {
                cntr+="◻ ";
-               if (i==y)
+               if (i==y-1)
                    cntr+="\n";
                    }
         this->counter_ooo->setPlainText(cntr);
@@ -521,16 +521,16 @@ void MainWindow::mousePressEvent(QMouseEvent *mEvent)
 
     this->map_with_red_squares.insert(make_pair(this->_vibrannaya_kletka, this->_pix_chaged_cell));
 
-    int y = round(this->map_of_all_zakl.size()/2);
-    QString cntr = "";
+    int y = this->map_of_all_zakl.size()/2;
+    QString cntr = ""; // TODO make string.find and change by iterator if it possible(no gettext in counter_ooo)
     for (int i = 0; i<map_of_finded_zakl.size(); ++i) {
            cntr += "◼ ";
-           if(i==y)
+           if(i==y-1)
                cntr += "\n";
        }
        for (int i = map_of_finded_zakl.size(); i<map_of_all_zakl.size(); ++i) {
            cntr += "◻ ";
-           if(i==y)
+           if(i==y-1)
                cntr += "\n";
        }
 
