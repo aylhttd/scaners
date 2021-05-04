@@ -18,6 +18,7 @@ private slots:
     void open_password_window();
     void open_game_window();
     void open_nelin_window();
+    void open_scan_window();
     void open_con_window();
     void open_constr_window();
 private:
@@ -36,7 +37,7 @@ private:
     //QPushButton *start_with_con;
     QPushButton *start_with_rand;
     QPushButton *start_with_nelin;
-    //QPushButton *start_with_prep;
+    QPushButton *start_with_scan;
     QPushButton *help_;
     QPushButton *about_;
     QPushButton *exit_;

@@ -139,6 +139,42 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
 
 }
 
+MainWindow::MainWindow(QDialog *parent, int weight, int height, int all, bool shit) : QDialog(parent),  height_of_map(height), weight_of_map(weight), number_of_sign(all)
+{
+    //this->set_number_of_zakl(active, passive);
+    this->setStyleSheet("background-color: lightGray;");
+
+    this->gen = new std::mt19937(time(NULL));
+
+    this->_timer = new QTimer();
+    this->_timer->setTimerType(Qt::TimerType::CoarseTimer);
+    connect(_timer, SIGNAL(timeout()), this, SLOT(slotTimerAlarm()));
+
+    this->hbox = new QHBoxLayout(this);
+
+    this->scene = new QGraphicsScene();
+    //this->scene_for_lights = new CustomScene(is_this_rand_game);
+    this->view = new myGraphicsView(scene);
+
+    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    scene->setSceneRect(0, 0, 64 * (this->weight_of_map), 64 * (this->height_of_map));
+    //scene_for_lights->setSceneRect(0,0,250,QApplication::screens().at(0)->availableSize().height());
+    is_this_scan_game = true;
+
+    hbox->addWidget(view);
+
+    //2th formanta
+    this->vec_of_graphik_of_second_formanta = new vector<pair<float, float>>();
+    this->vec_of_graphik_of_second_formanta->resize(5550); //4islo otshetov na graphike
+
+    this->generate_map();
+    this->add_hero();
+    this->generate_scaners_ist(all);
+
+}
+
 MainWindow::~MainWindow()
 {
 
@@ -229,6 +265,144 @@ void MainWindow::add_zakl()
 
 }
 
+void MainWindow::generate_scaners_ist(int number)
+{
+    //enum type_of_fluctuation{bluetooth_, _5g_, _4g_, _3g_, GPS_, radio_, GLONASS_};
+
+
+    for(int i = 0; i < number; ++i){
+        label:
+        type_of_fluctuation t = (type_of_fluctuation)this->generate_random_int_number(0, 6);
+        int height_of_this_sign = this->generate_random_int_number(0, this->height_of_map - 1);
+        int weight_of_this_sign = this->generate_random_int_number(0, this->weight_of_map - 1);
+        float power = this->generate_random_int_number(15, 80);
+
+        if((height_of_this_sign == 0 || (weight_of_this_sign == 0)) || map_of_all_zakl.find(make_pair(height_of_this_sign, weight_of_this_sign)) != map_of_all_zakl.end())
+            goto label;
+
+
+        map_of_all_sign.insert(make_pair(make_pair(height_of_this_sign, weight_of_this_sign), make_pair(t, power)));
+        //this->vec_of_zakl[height_of_this_sign][weight_of_this_sign] = active_;
+
+        qDebug() << height_of_this_sign << " " << weight_of_this_sign;
+
+    }
+}
+
+void MainWindow::generate_graphik_perems()
+{
+    //adding shum
+    for(int i = 0; i < this->vec_of_graphik_of_second_formanta->size(); ++i)
+        this->vec_of_graphik_of_second_formanta->operator[](i) = make_pair(static_cast<float>(i + 450), static_cast<float>(this->generate_random_int_number(8, 15)));
+
+    vector<pair<pair<int, int>, pair<type_of_fluctuation, float>>> vec_of_visible_fluct;
+
+    vec_of_visible_fluct.reserve(this->map_of_all_sign.size());
+
+    for(auto& obj : this->map_of_all_sign)
+        vec_of_visible_fluct.push_back(make_pair(obj.first, obj.second));
+
+    //на этом этапе все флуктуации сохранены
+    for(auto &obj : vec_of_visible_fluct){
+        auto pos_of_flukt_normalized = make_pair(abs(this->_hero->coordinate.first - obj.first.first), abs(this->_hero->coordinate.second - obj.first.second));
+        while(pos_of_flukt_normalized.first != 0 || (pos_of_flukt_normalized.second != 0)){
+            if(pos_of_flukt_normalized.first > 0 && (pos_of_flukt_normalized.second > 0)){
+                pos_of_flukt_normalized = make_pair(pos_of_flukt_normalized.first - 1, pos_of_flukt_normalized.second - 1); //уменьшение мощности на 10% и понижение всех координат на единицу
+                obj.second = make_pair(obj.second.first, obj.second.second * 0.85);
+            }
+
+            if(pos_of_flukt_normalized.first == 0 && (pos_of_flukt_normalized.second > 0)){
+                pos_of_flukt_normalized = make_pair(pos_of_flukt_normalized.first, pos_of_flukt_normalized.second - 1); //уменьшение мощности на 10% и понижение всех координаты на единицу
+                obj.second = make_pair(obj.second.first, obj.second.second * 0.85);
+            }
+
+            if(pos_of_flukt_normalized.second == 0 && (pos_of_flukt_normalized.first > 0)){
+                pos_of_flukt_normalized = make_pair(pos_of_flukt_normalized.first - 1, pos_of_flukt_normalized.second); //уменьшение мощности на 10% и понижение всех координаты на единицу
+                obj.second = make_pair(obj.second.first, obj.second.second * 0.85);
+            }
+        }
+    }
+
+    //удаление "Затухших" флуктуаций
+    for(auto i = vec_of_visible_fluct.begin(); i != vec_of_visible_fluct.end();)
+        if((*i).second.second < 8)
+            i = vec_of_visible_fluct.erase(i);
+        else
+            ++i;
+
+    //вставка флуктуаций на график
+    for(auto obj : vec_of_visible_fluct){
+        auto type_ = obj.second.first;
+
+        float power_of_fluct = obj.second.second;
+        //enum type_of_fluctuation{no_fluct_, inactive_semiconductors_, active_semiconductors_, bluetooth_, _5g_, _4g_, _3g_, GPS_, radio_, GLONASS_};
+        switch (type_) {
+        case bluetooth_:
+            //2400-2500
+            this->add_concret_fluct_second_formanta(2400, 100, power_of_fluct);
+        break;
+
+        case _5g_:
+            //4800-4990
+            this->add_concret_fluct_second_formanta(4800, 190, power_of_fluct);
+        break;
+
+        case _4g_:
+            //452-467
+            this->add_concret_fluct_second_formanta(452, 15, power_of_fluct);
+
+            //720-791
+            this->add_concret_fluct_second_formanta(720, 71, power_of_fluct);
+
+            //2500-2570
+            this->add_concret_fluct_second_formanta(2500, 70, power_of_fluct);
+        break;
+
+        case _3g_:
+            //1920-1980
+            this->add_concret_fluct_second_formanta(1920, 60, power_of_fluct);
+
+            //2110-2170
+            this->add_concret_fluct_second_formanta(2110, 60, power_of_fluct);
+        break;
+
+        case GPS_:
+            //1176-1218
+            this->add_concret_fluct_second_formanta(1176, 42, power_of_fluct);
+        break;
+
+        case radio_:
+            //420-434
+            this->add_concret_fluct_second_formanta(420, 14, power_of_fluct);
+        break;
+
+        case GLONASS_:
+            //1575-1602
+            this->add_concret_fluct_second_formanta(1575, 27, power_of_fluct);
+            //1207-1248
+            this->add_concret_fluct_second_formanta(1207, 41, power_of_fluct);
+            //1176-1202
+            this->add_concret_fluct_second_formanta(1176, 26, power_of_fluct);
+        break;
+        }
+
+    }
+}
+
+void MainWindow::add_concret_fluct_second_formanta(int start, int length, float power_of_fluct)
+{
+    for(int i = 0; i < length; ++i){
+        bool is_power_wil_be_lower_than_etalon = this->generate_random_int_number(0, 1);
+        float power_of_this_ots;
+        if(is_power_wil_be_lower_than_etalon)
+            power_of_this_ots = power_of_fluct + (this->generate_random_int_number(1, power_of_fluct * 0.1));
+        else
+            power_of_this_ots = power_of_fluct + (- this->generate_random_int_number(1, power_of_fluct * 0.1));
+        this->vec_of_graphik_of_second_formanta->operator[](start + i - 450) = make_pair(this->vec_of_graphik_of_second_formanta->operator[](start + i - 450).first, power_of_this_ots);
+    }
+}
+
+
 bool MainWindow::is_coordinate_is_normal(pair<int, int> _coordinate) const
 {
     if(_coordinate.first <= 0 || (_coordinate.second <= 0))
@@ -253,6 +427,141 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
     /*if(!this->is_move_possible)
         return;*/
+
+
+    if(this->is_this_scan_game){
+
+
+
+        if(event->key() == Qt::Key_W || event->key() == 0x0426){
+             if(this->is_coordinate_is_normal(make_pair(this->_hero->coordinate.first - 1, this->_hero->coordinate.second))){
+                 this->_hero->setPos(this->_hero->pos().x(), this->_hero->pos().y() - 64.);
+
+                 QPixmap* kvadrat_blue = new QPixmap();
+                 kvadrat_blue->load(":/new/prefix1/kvadrat (1)Blue.png");
+
+                 Pixmap *item_kvadrat_blue = new Pixmap(*kvadrat_blue);
+                 item_kvadrat_blue->setOffset(-kvadrat_blue->width()/2, -kvadrat_blue->height()/2);
+                 item_kvadrat_blue->setPos(32. + 64. * (this->_hero->coordinate.second - 1), 32. + 64. * (this->_hero->coordinate.first - 1));
+
+                 scene->addItem(item_kvadrat_blue);
+
+                 this->_hero->update();
+                 this->_hero->coordinate = make_pair(this->_hero->coordinate.first - 1, this->_hero->coordinate.second);
+
+                 for(auto obj : this->map_with_red_squares){
+                     scene->removeItem(obj.second);
+                     scene->addItem(obj.second);
+                 }
+
+                 this->scene->removeItem(this->_hero);
+                 scene->addItem(this->_hero);
+            }
+        }
+
+        if(event->key() == Qt::Key_A || event->key() == 0x0424){
+            if(this->is_coordinate_is_normal(make_pair(this->_hero->coordinate.first, this->_hero->coordinate.second - 1))){
+                this->_hero->setPos(this->_hero->pos().x() - 64., this->_hero->pos().y());
+
+                QPixmap* kvadrat_blue = new QPixmap();
+                kvadrat_blue->load(":/new/prefix1/kvadrat (1)Blue.png");
+
+                Pixmap *item_kvadrat_blue = new Pixmap(*kvadrat_blue);
+                item_kvadrat_blue->setOffset(-kvadrat_blue->width()/2, -kvadrat_blue->height()/2);
+                item_kvadrat_blue->setPos(32. + 64. * (this->_hero->coordinate.second - 1), 32. + 64. * (this->_hero->coordinate.first - 1));
+
+                scene->addItem(item_kvadrat_blue);
+
+                this->_hero->update();
+                this->_hero->coordinate = make_pair(this->_hero->coordinate.first, this->_hero->coordinate.second - 1);
+
+                for(auto obj : this->map_with_red_squares){
+                    scene->removeItem(obj.second);
+                    scene->addItem(obj.second);
+                }
+
+                this->scene->removeItem(this->_hero);
+                scene->addItem(this->_hero);
+            }
+       }
+
+        if(event->key() == Qt::Key_S || event->key() == 0x042b){
+            if(this->is_coordinate_is_normal(make_pair(this->_hero->coordinate.first + 1, this->_hero->coordinate.second))){
+                this->_hero->setPos(this->_hero->pos().x(), this->_hero->pos().y() + 64.);
+
+                QPixmap* kvadrat_blue = new QPixmap();
+                kvadrat_blue->load(":/new/prefix1/kvadrat (1)Blue.png");
+
+                Pixmap *item_kvadrat_blue = new Pixmap(*kvadrat_blue);
+                item_kvadrat_blue->setOffset(-kvadrat_blue->width()/2, -kvadrat_blue->height()/2);
+                item_kvadrat_blue->setPos(32. + 64. * (this->_hero->coordinate.second - 1), 32. + 64. * (this->_hero->coordinate.first - 1));
+
+                scene->addItem(item_kvadrat_blue);
+
+                this->_hero->update();
+                this->_hero->coordinate = make_pair(this->_hero->coordinate.first + 1, this->_hero->coordinate.second);
+
+                for(auto obj : this->map_with_red_squares){
+                    scene->removeItem(obj.second);
+                    scene->addItem(obj.second);
+                }
+
+                this->scene->removeItem(this->_hero);
+                scene->addItem(this->_hero);
+            }
+
+       }
+
+        if(event->key() == Qt::Key_D || event->key() == 0x0412){
+            if(this->is_coordinate_is_normal(make_pair(this->_hero->coordinate.first, this->_hero->coordinate.second + 1))){
+                this->_hero->setPos(this->_hero->pos().x() + 64., this->_hero->pos().y());
+
+                QPixmap* kvadrat_blue = new QPixmap();
+                kvadrat_blue->load(":/new/prefix1/kvadrat (1)Blue.png");
+
+                Pixmap *item_kvadrat_blue = new Pixmap(*kvadrat_blue);
+                item_kvadrat_blue->setOffset(-kvadrat_blue->width()/2, -kvadrat_blue->height()/2);
+                item_kvadrat_blue->setPos(32. + 64. * (this->_hero->coordinate.second - 1), 32. + 64. * (this->_hero->coordinate.first - 1));
+
+                scene->addItem(item_kvadrat_blue);
+
+                this->_hero->update();
+                this->_hero->coordinate = make_pair(this->_hero->coordinate.first, this->_hero->coordinate.second + 1);
+
+                for(auto obj : this->map_with_red_squares){
+                    scene->removeItem(obj.second);
+                    scene->addItem(obj.second);
+                }
+
+                this->scene->removeItem(this->_hero);
+                scene->addItem(this->_hero);
+            }
+       }
+        static bool is_this_first_push_button = true;
+
+        static graphic_window* graphik_window;
+
+        this->generate_graphik_perems();
+
+        if(is_this_first_push_button){
+            graphik_window = new graphic_window(this->vec_of_graphik_of_second_formanta, this);
+            graphik_window->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint);
+            graphik_window->setWindowTitle("Просмотр графика");
+            graphik_window->setMaximumSize(380, 420);
+            graphik_window->setMaximumSize(380, 420);
+            is_this_first_push_button = false;
+            graphik_window->show();
+            graphik_window->exec();
+            //graphik_window->~graphic_window();
+
+
+        }
+        else{
+            graphik_window->update_only(this->vec_of_graphik_of_second_formanta);
+        }
+        return;
+    }
+
 
     vector<double> vec_of_power_active;
     vec_of_power_active.reserve(this->chislo_aktivnyx_zakladok);
@@ -490,11 +799,61 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::mousePressEvent(QMouseEvent *mEvent)
 {
-    /*if(this->_pix_chaged_cell != nullptr){
-        scene->removeItem(this->_pix_chaged_cell);
-        this->_pix_chaged_cell->hide();
-        this->_pix_chaged_cell = nullptr;
-    }*/
+    if(is_this_scan_game){
+        auto temp = make_pair(this->view->mapToScene(mEvent->windowPos().x(), mEvent->windowPos().y()).x(), this->view->mapToScene(mEvent->windowPos().x(), mEvent->windowPos().y()).y());   //i dont now how it working, but it working!
+        temp = make_pair(temp.first-64*this->view->get_scale_koef(), temp.second-64*this->view->get_scale_koef());
+        this->_vibrannaya_kletka = make_pair(floor(temp.second / 64) + 1, floor(temp.first / 64) + 1);
+
+        if(this->_vibrannaya_kletka.first <= -1 || (this->_vibrannaya_kletka.second <= -1) || (this->_vibrannaya_kletka.first - 1 > this->height_of_map) || (this->_vibrannaya_kletka.second - 1 > this->weight_of_map))
+            return;
+
+        if(this->map_of_all_sign.find(this->_vibrannaya_kletka) == this->map_of_all_sign.end())
+            return;
+
+        QPixmap* red_square = new QPixmap();
+        red_square->load(":/new/prefix1/kvadrat (1).png");  //загрузка красного квадрата в png
+
+        this->_pix_chaged_cell = new Pixmap(*red_square);
+        this->_pix_chaged_cell->setOffset(-red_square->width()/2, -red_square->height()/2);
+        this->_pix_chaged_cell->setPos((this->_vibrannaya_kletka.second - 1) * 64. + 32., 64. * (this->_vibrannaya_kletka.first - 1) + 32.);
+        scene->addItem(this->_pix_chaged_cell);
+
+
+        //дима, перепиши это
+        /*map_of_finded_zakl.insert(make_pair(this->_vibrannaya_kletka, (this->map_of_all_zakl.find(this->_vibrannaya_kletka)->second)));
+
+        this->map_with_red_squares.insert(make_pair(this->_vibrannaya_kletka, this->_pix_chaged_cell));
+
+        int y = this->map_of_all_zakl.size()/2;
+        QString cntr = ""; // TODO make string.find and change by iterator if it possible(no gettext in counter_ooo)
+        for (int i = 0; i<map_of_finded_zakl.size(); ++i) {
+               cntr += "◼ ";
+               if(i==y-1)
+                   cntr += "\n";
+           }
+           for (int i = map_of_finded_zakl.size(); i<map_of_all_zakl.size(); ++i) {
+               cntr += "◻ ";
+               if(i==y-1)
+                   cntr += "\n";
+           }
+
+
+        this->counter_ooo->setPlainText(cntr);
+        this->counter_ooo->setPos(10, QApplication::screens().at(0)->availableSize().height()-150);
+        this->counter_ooo->update();*/
+
+        //и это тоже
+        if(map_of_finded_zakl.size() == this->map_of_all_zakl.size()){
+            QMessageBox::warning(this, "Поздравляю, вы нашли закладку!", "Поздравляю, вы нашли все закладки!");
+            this->close();
+        }
+        return;
+    }
+
+
+
+
+
 
     if(mEvent->windowPos().x() < this->view->width())
     {
@@ -876,4 +1235,3 @@ bool MainWindow::set_number_of_zakl(int active, int passive)
     }
     return true;
 }
-

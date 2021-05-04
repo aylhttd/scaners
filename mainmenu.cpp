@@ -38,6 +38,13 @@ mainmenu::mainmenu(QWidget *parent)
     start_with_nelin->setFont(font_for_buttons);
     vbox->addWidget(start_with_nelin);
 
+            start_with_scan = new QPushButton("Режим осциллографа", this);
+            start_with_scan->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+            start_with_scan->setCursor(QCursor(Qt::PointingHandCursor));
+            start_with_scan->setStyleSheet("QPushButton {     background-color: rgba(170, 85, 255, 100);     border-style: outset;     border-width: 2px;	border-radius: 10px;     border-color: rgb(85, 0, 127);     min-width: 10em;     padding:12px;} QPushButton:hover {     background-color:rgba(170, 0, 0, 100);     border-style: outset;     border-width: 2px;     border-radius: 10px;     font: bold 26px;     min-width: 10em;     padding: 6px}");
+            start_with_scan->setFont(font_for_buttons);
+            vbox->addWidget(start_with_scan);
+
     /*start_with_prep = new QPushButton("Режим с преподавателем", this);
     start_with_prep->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     start_with_prep->setCursor(QCursor(Qt::PointingHandCursor));
@@ -116,6 +123,7 @@ mainmenu::mainmenu(QWidget *parent)
     connect(about_, &QPushButton::clicked, this, &mainmenu::open_about_window);
     connect(start_with_rand, &QPushButton::clicked, this, &mainmenu::open_game_window);
     connect(start_with_nelin, &QPushButton::clicked, this, &mainmenu::open_nelin_window);
+    connect(start_with_scan, &QPushButton::clicked, this, &mainmenu::open_scan_window);
     //connect(start_with_settings, &QPushButton::clicked, this, &mainmenu::open_constr_window);
     //connect(_pass, &QPushButton::clicked, this, &mainmenu::open_password_window);
     //connect(start_with_con, &QPushButton::clicked, this, &mainmenu::open_con_window);
@@ -172,6 +180,14 @@ void mainmenu::open_password_window()
         start_with_settings->setStyleSheet("QPushButton {     background-color: rgba(170, 85, 255, 100);     border-style: outset;     border-width: 2px;	border-radius: 10px;     border-color: rgb(85, 0, 127);     min-width: 10em;     padding:12px;} QPushButton:hover {     background-color:rgba(170, 0, 0, 100);     border-style: outset;     border-width: 2px;     border-radius: 10px;  font: bold 26px;   min-width: 10em;     padding: 6px}");
     }*/
 
+}
+
+void mainmenu::open_scan_window()
+{
+    auto change_size_ = new number_of_signal_chiose(this);
+    change_size_->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
+    change_size_->setWindowTitle("Выберете количество сигналов");
+    change_size_->showFullScreen();
 }
 
 void mainmenu::open_game_window()

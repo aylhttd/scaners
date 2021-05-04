@@ -1,7 +1,7 @@
 #ifndef NUMBER_OF_ZAKLADKA_CHOISE_H
 #define NUMBER_OF_ZAKLADKA_CHOISE_H
 
-#include "mainwindow.h"
+#include "number_of_signal_chiose.h"
 
 class change_size : public QDialog
 {

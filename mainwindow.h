@@ -57,7 +57,7 @@
 //my includes
 //#include "help.h"
 //#include "about.h"
-//#include "change_size.h"
+#include "graphic_window.h"
 
 //namespaces
 using namespace std;
@@ -234,6 +234,7 @@ public:
 
 
 enum type_of_zakladka{passiv_, active_, empty_};
+enum type_of_fluctuation{inactive_semiconductors_, active_semiconductors_, bluetooth_, _5g_, _4g_, _3g_, GPS_, radio_, GLONASS_};
 
 class MainWindow : public QDialog
 {
@@ -241,6 +242,7 @@ class MainWindow : public QDialog
 
 public:
     MainWindow(QDialog *parent = nullptr, int weight = 100, int height = 100, int active = 3, int passive = 3, bool is_this_rand_game = true);
+    MainWindow(QDialog *parent = nullptr, int weight = 100, int height = 100, int all = 3, bool shit = true);
     ~MainWindow();
 
     void closeEvent(QCloseEvent *event);
@@ -269,6 +271,17 @@ public:
     pair<int, int> _vibrannaya_kletka = make_pair(-1, -1);
     QTimer* _timer;
     bool is_move_possible = true;
+
+    //for scaners
+    void generate_scaners_ist(int number);
+    void refresh_graph();
+    void generate_graphik_perems();
+    void add_concret_fluct_second_formanta(int start, int length, float power_of_fluct);
+
+    int number_of_sign;
+    map<pair<int, int>, pair<type_of_fluctuation, float>> map_of_all_sign;
+    vector<pair<float, float>>* vec_of_graphik_of_second_formanta;
+    bool is_this_scan_game = false;
 
 protected slots:
     void slotTimerAlarm();
