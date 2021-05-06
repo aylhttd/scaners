@@ -96,6 +96,7 @@ void number_of_signal_chiose::OK_clicked()
         randome_game_->setModal(true);
         this->close();
         randome_game_->exec();
+        randome_game_->~MainWindow();
 }
 
 void number_of_signal_chiose::Exit_clicked()

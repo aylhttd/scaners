@@ -66,6 +66,7 @@ using namespace std;
 
 static bool is_antennka_active = false;
 
+
 class Pixmap : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
@@ -259,6 +260,7 @@ public:
     void add_frames();
     bool set_number_of_zakl(int active, int passive);
     //bool eventFilter(QObject *obj, QEvent *event);
+    QString get_counter_ooo();
 
     bool is_this_nelin_game = false;
     bool is_this_rand_game = false;
@@ -280,8 +282,13 @@ public:
 
     int number_of_sign;
     map<pair<int, int>, pair<type_of_fluctuation, float>> map_of_all_sign;
+    map<pair<int, int>, float> finded_signal;
     vector<pair<float, float>>* vec_of_graphik_of_second_formanta;
     bool is_this_scan_game = false;
+    bool is_this_first_push_button = true;
+
+    graphic_window* _potomok;
+
 
 protected slots:
     void slotTimerAlarm();
@@ -290,6 +297,7 @@ protected:
 
 
     QGraphicsTextItem* counter_ooo = new QGraphicsTextItem("");
+    QString cntr;
 
     int chislo_aktivnyx_zakladok;
     int chislo_passivnix_zakladok;

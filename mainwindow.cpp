@@ -119,22 +119,21 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
         //размещай тут свои всратые текстуры, диман
     }
 
-
-
     int y = this->map_of_all_zakl.size()/2;
-        QString cntr = "";
+
 
 
            for (int i =0; i<this->map_of_all_zakl.size(); ++i) {
-               cntr+="◻ ";
+               this->cntr+="◻ ";
                if (i==y-1)
-                   cntr+="\n";
+                   this->cntr+="\n";
                    }
-        this->counter_ooo->setPlainText(cntr);
+        this->counter_ooo->setPlainText(this->cntr);
         this->counter_ooo->setFont(QFont("Times new roman", 24, QFont::Bold));
         this->counter_ooo->setPos(10, QApplication::screens().at(0)->availableSize().height()-150);
         this->counter_ooo->update();
         this->scene_for_lights->addItem(counter_ooo);
+
 
 
 }
@@ -173,11 +172,14 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int all, bool sh
     this->add_hero();
     this->generate_scaners_ist(all);
 
+    for (int i =0; i<this->map_of_all_sign.size(); ++i)
+         this->cntr+="◻ ";
+
 }
 
 MainWindow::~MainWindow()
 {
-
+    this->is_this_first_push_button = true;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -291,7 +293,7 @@ void MainWindow::generate_scaners_ist(int number)
 
 void MainWindow::generate_graphik_perems()
 {
-    //adding shum
+    //adding shum ( making some noise :) )
     for(int i = 0; i < this->vec_of_graphik_of_second_formanta->size(); ++i)
         this->vec_of_graphik_of_second_formanta->operator[](i) = make_pair(static_cast<float>(i + 450), static_cast<float>(this->generate_random_int_number(8, 15)));
 
@@ -422,8 +424,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         if(mb == QMessageBox::No)
             return;
-        else
+        else {
             this->close();
+            this->_potomok!=nullptr ? this->_potomok->close() : NULL;
+        }
     }
     /*if(!this->is_move_possible)
         return;*/
@@ -537,27 +541,27 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 scene->addItem(this->_hero);
             }
        }
-        static bool is_this_first_push_button = true;
 
         static graphic_window* graphik_window;
 
         this->generate_graphik_perems();
 
         if(is_this_first_push_button){
-            graphik_window = new graphic_window(this->vec_of_graphik_of_second_formanta, this);
-            graphik_window->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint);
-            graphik_window->setWindowTitle("Просмотр графика");
-            graphik_window->setMaximumSize(380, 420);
-            graphik_window->setMaximumSize(380, 420);
+            this->_potomok = new graphic_window(this->vec_of_graphik_of_second_formanta, this, this->get_counter_ooo());
+            this->_potomok->setWindowFlags(Qt::SubWindow |  Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint
+                                           | Qt::WindowStaysOnTopHint);
+            this->_potomok->setWindowTitle("Просмотр графика");
+            //this->_potomok->setMaximumSize(480, 640);
+            //this->_potomok->setMaximumSize(960, 1280);
             is_this_first_push_button = false;
-            graphik_window->show();
-            graphik_window->exec();
-            //graphik_window->~graphic_window();
+            this->_potomok->show();
+            this->_potomok->exec();
+            //this->_potomok->~graphic_window();
 
 
         }
         else{
-            graphik_window->update_only(this->vec_of_graphik_of_second_formanta);
+            this->_potomok->update_only(this->vec_of_graphik_of_second_formanta);
         }
         return;
     }
@@ -819,31 +823,33 @@ void MainWindow::mousePressEvent(QMouseEvent *mEvent)
         scene->addItem(this->_pix_chaged_cell);
 
 
-        //дима, перепиши это
-        /*map_of_finded_zakl.insert(make_pair(this->_vibrannaya_kletka, (this->map_of_all_zakl.find(this->_vibrannaya_kletka)->second)));
+
+        finded_signal.insert(make_pair(this->_vibrannaya_kletka, 0));
 
         this->map_with_red_squares.insert(make_pair(this->_vibrannaya_kletka, this->_pix_chaged_cell));
 
-        int y = this->map_of_all_zakl.size()/2;
-        QString cntr = ""; // TODO make string.find and change by iterator if it possible(no gettext in counter_ooo)
+        //int y = this->map_of_all_zakl.size()/2;
+        this->cntr = ""; // TODO make string.find and change by iterator if it possible(no gettext in counter_ooo)
+        if (!is_this_scan_game) {
         for (int i = 0; i<map_of_finded_zakl.size(); ++i) {
-               cntr += "◼ ";
-               if(i==y-1)
-                   cntr += "\n";
+               this->cntr += "◼ ";
            }
            for (int i = map_of_finded_zakl.size(); i<map_of_all_zakl.size(); ++i) {
-               cntr += "◻ ";
-               if(i==y-1)
-                   cntr += "\n";
+               this->cntr += "◻ ";
            }
+        }
+        else
+        {
+            for (int i=0; i < this->finded_signal.size(); ++i)
+                this->cntr += "◼ ";
+            for (int i = finded_signal.size(); i<map_of_all_sign.size(); ++i)
+                this->cntr += "◻ ";
+            this->_potomok->update_counter(cntr);
+        }
 
-
-        this->counter_ooo->setPlainText(cntr);
-        this->counter_ooo->setPos(10, QApplication::screens().at(0)->availableSize().height()-150);
-        this->counter_ooo->update();*/
 
         //и это тоже
-        if(map_of_finded_zakl.size() == this->map_of_all_zakl.size()){
+        if(finded_signal.size() == this->map_of_all_sign.size()){
             QMessageBox::warning(this, "Поздравляю, вы нашли закладку!", "Поздравляю, вы нашли все закладки!");
             this->close();
         }
@@ -1234,4 +1240,9 @@ bool MainWindow::set_number_of_zakl(int active, int passive)
         this->chislo_passivnix_zakladok=passive;
     }
     return true;
+}
+
+QString MainWindow::get_counter_ooo()
+{
+    return this->cntr;
 }

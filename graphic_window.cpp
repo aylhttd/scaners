@@ -1,7 +1,9 @@
 #include "graphic_window.h"
 
-graphic_window::graphic_window(vector<pair<float, float> > *vec_of_graphik_of_second_formanta, QWidget *parent) : vec_of_graphik_of_second_formanta(vec_of_graphik_of_second_formanta)
+graphic_window::graphic_window(vector<pair<float, float> > *vec_of_graphik_of_second_formanta, QWidget *parent, QString counter) : vec_of_graphik_of_second_formanta(vec_of_graphik_of_second_formanta)
 {
+    this->_parent = parent;
+    this->counter_ooo = counter;
     //window build
     QVBoxLayout *grid = new QVBoxLayout(this);
 
@@ -10,6 +12,17 @@ graphic_window::graphic_window(vector<pair<float, float> > *vec_of_graphik_of_se
 
     chartView_2th_formanta = new QChartView(this);
     chartView_2th_formanta->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+
+    /*auto scene = new QGraphicsScene();
+    scene->addItem(this->counter_ooo);
+    auto _counter = new QGraphicsView(scene);
+    _counter->setGeometry(0, 0, 200, 30);*/
+
+    this->cntr = new QLabel(this->counter_ooo);
+    this->cntr->setAlignment(Qt::AlignHCenter);
+    this->cntr->setFont(font_for_label);
+
+    grid->addWidget(cntr);
 
     grid->addWidget(chartView_2th_formanta);
 
@@ -62,13 +75,25 @@ graphic_window::graphic_window(vector<pair<float, float> > *vec_of_graphik_of_se
 
     this->chartView_2th_formanta->chart()->update();
 
-    this->setGeometry(x(), y(), 480, 320);
+    this->setGeometry(x(), y(), 480, 540);
 }
 
 void graphic_window::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Escape)
-        this->close();
+    if(event->key() == Qt::Key_Escape){
+        QMessageBox::StandardButton mb = QMessageBox::question(this, "Внимание!", "Вы уверены, что хотите выйти?", QMessageBox::Yes | QMessageBox::No);
+
+        if(mb == QMessageBox::No)
+            return;
+        else {
+            this->close();
+            this->_parent->close();
+        }
+    }
+    else
+        //this->_parent->keyPressEvent(event);
+        QApplication::sendEvent(this->_parent, event);
+
 }
 
 void graphic_window::wheelEvent(QWheelEvent *e)
@@ -155,6 +180,15 @@ void graphic_window::update_only(vector<pair<float, float> > *vec_of_graphik_of_
     axisX->setRange(QString::number(this->_now_range_2th_command.first), (QString::number(this->_now_range_2th_command.second)));
 
     this->chartView_2th_formanta->chart()->update();
+
+
+
+}
+
+void graphic_window::update_counter(QString counter)
+{
+    this->counter_ooo = counter;
+    this->cntr->setText(counter_ooo);
 }
 
 graphic_window::~graphic_window()

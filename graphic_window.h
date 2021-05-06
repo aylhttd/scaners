@@ -68,13 +68,14 @@ class graphic_window : public QDialog
     Q_OBJECT
 
 public:
-    graphic_window(vector<pair<float, float>>* vec_of_graphik_of_second_formanta, QWidget *parent = nullptr);
+    graphic_window(vector<pair<float, float>>* vec_of_graphik_of_second_formanta, QWidget *parent = nullptr, QString counter = "");
     ~graphic_window();
 
     vector<pair<float, float>>* vec_of_graphik_of_second_formanta;
     void keyPressEvent(QKeyEvent *event);
     void wheelEvent(QWheelEvent *e);
     void update_only(vector<pair<float, float>>* vec_of_graphik_of_second_formanta);
+    void update_counter(QString counter);
 
 private:
     QBarSeries *series_2th_formanta;
@@ -83,6 +84,9 @@ private:
     QBarCategoryAxis *axisX = nullptr;
     QValueAxis *axisY = nullptr;
     QChartView *chartView_2th_formanta = nullptr;
+    QWidget* _parent;
+    QString counter_ooo;
+    QLabel* cntr;
 
 };
 
