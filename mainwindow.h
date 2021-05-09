@@ -235,7 +235,7 @@ public:
 
 
 enum type_of_zakladka{passiv_, active_, empty_};
-enum type_of_fluctuation{inactive_semiconductors_, active_semiconductors_, bluetooth_, _5g_, _4g_, _3g_, GPS_, radio_, GLONASS_};
+enum type_of_fluctuation{bluetooth_, _5g_, _4g_, _3g_, GPS_, radio_, GLONASS_};
 
 class MainWindow : public QDialog
 {

@@ -49,6 +49,7 @@ graphic_window::graphic_window(vector<pair<float, float> > *vec_of_graphik_of_se
     //series_2th_formanta->append(set);
 
     chart_2th_formanta->addSeries(series_2th_formanta);
+    chartView_2th_formanta->setRenderHint(QPainter::Antialiasing, false);
 
     //добавление третьей форманты на график
     //series_3th_formanta->append(set_3th_formanta);
@@ -160,26 +161,42 @@ void graphic_window::wheelEvent(QWheelEvent *e)
 
 void graphic_window::update_only(vector<pair<float, float> > *vec_of_graphik_of_second_formanta)
 {
+
     this->vec_of_graphik_of_second_formanta = vec_of_graphik_of_second_formanta;
 
-    axisX->clear();
+    //axisX->clear();
     series_2th_formanta->clear();
 
     //QBarSet *set_3th_formanta = new QBarSet(QString::number(this->_now_range_2th_command.first) + "-" + QString::number(this->_now_range_2th_command.second) + " МГц");
     QBarSet *set = new QBarSet(QString::number(this->_now_range_2th_command.first) + "-" + QString::number(this->_now_range_2th_command.second) + " МГц");
     QStringList categories;
 
+
+
     for(int i = this->_now_range_2th_command.first; i <= this->_now_range_2th_command.second; ++i){
         categories << QString::number(this->vec_of_graphik_of_second_formanta->operator[](i - 450).first);
         *set << this->vec_of_graphik_of_second_formanta->operator[](i - 450).second;
     }
 
-    series_2th_formanta->append(set);
+
+    series_2th_formanta->append(set);   //походу, тупняк тут
     //series_2th_formanta->append(set_3th_formanta);
-    axisX->append(categories);
+//auto t1 = std::chrono::high_resolution_clock::now();
+
+auto shit = axisX->categories();
+auto shit_iter = shit.begin();
+for(auto &obj : categories){
+    axisX->replace(*shit_iter, obj);  //и тут
+    ++shit_iter;
+}
+
+//auto t2 = std::chrono::high_resolution_clock::now();
+//qDebug() << std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
     axisX->setRange(QString::number(this->_now_range_2th_command.first), (QString::number(this->_now_range_2th_command.second)));
 
-    this->chartView_2th_formanta->chart()->update();
+
+    //int blyadovka1 = 0;
+    //this->chartView_2th_formanta->chart()->update();
 
 
 

@@ -7,7 +7,7 @@ mainmenu::mainmenu(QWidget *parent)
 
     vbox = new QVBoxLayout(this);
 
-    vbox->setContentsMargins(100, 15, 100, 50);
+    vbox->setContentsMargins(250, 15, 250, 50);
     vbox->setSpacing(50);
 
     QFont font_for_buttons("Times new roman", 14, QFont::Bold);
@@ -24,7 +24,7 @@ mainmenu::mainmenu(QWidget *parent)
     title->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     vbox->addWidget(title);
 
-    start_with_rand = new QPushButton("Начать игру", this);
+    start_with_rand = new QPushButton("Режим индикатора поля", this);
     start_with_rand->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     start_with_rand->setCursor(QCursor(Qt::PointingHandCursor));
     start_with_rand->setStyleSheet("QPushButton {     background-color: rgba(170, 85, 255, 100);     border-style: outset;     border-width: 2px;	border-radius: 10px;     border-color: rgb(85, 0, 127);     min-width: 10em;     padding:12px;} QPushButton:hover {     background-color:rgba(170, 0, 0, 100);     border-style: outset;     border-width: 2px;     border-radius: 10px;     font: bold 26px;     min-width: 10em;     padding: 6px}");
