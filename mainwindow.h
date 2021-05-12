@@ -10,6 +10,7 @@
 #include <set>
 #include <utility>
 #include <iterator>
+#include <unordered_set>
 
 //QT includes
 #include <QtWidgets/QtWidgets>

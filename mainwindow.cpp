@@ -371,8 +371,8 @@ void MainWindow::generate_graphik_perems()
         break;
 
         case radio_:
-            //420-434
-            this->add_concret_fluct_second_formanta(420, 14, power_of_fluct);
+            //450-464
+            this->add_concret_fluct_second_formanta(450, 14, power_of_fluct);
         break;
 
         case GLONASS_:
@@ -849,6 +849,7 @@ void MainWindow::mousePressEvent(QMouseEvent *mEvent)
         if(finded_signal.size() == this->map_of_all_sign.size()){
             QMessageBox::warning(this, "Поздравляю, вы нашли закладку!", "Поздравляю, вы нашли все закладки!");
             this->close();
+            this->_potomok->close();
         }
         return;
     }
