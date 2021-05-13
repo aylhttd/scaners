@@ -49,5 +49,10 @@
         <file>7lamps_A.png</file>
         <file>8lamps_A.png</file>
         <file>9lamps_A.png</file>
+        <file>full_for_button.png</file>
+        <file>bashenki.png</file>
+        <file>ab.png</file>
+        <file>dver.png</file>
+        <file>vopr.png</file>
     </qresource>
 </RCC>

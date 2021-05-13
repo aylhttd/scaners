@@ -12,7 +12,8 @@ int main(int argc, char *argv[])
 
 
     mainmenu w;
-    w.showFullScreen();
+    w.setWindowTitle("FIELD DETECTOR");
+    w.show();
 
     return a.exec();
 }
