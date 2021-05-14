@@ -87,7 +87,7 @@ void number_of_signal_chiose::OK_clicked()
     if(this->all->text()=="")
         this->all->setText("2");
 
-    MainWindow* randome_game_ =  randome_game_ = new MainWindow(nullptr, (int)(QApplication::screens().at(0)->availableSize().width()-250)/64/0.42-1, (int)(QApplication::screens().at(0)->availableSize().height())/64/0.42, this->all->text().toInt(), true);
+    MainWindow* randome_game_ =  randome_game_ = new MainWindow(nullptr, (int)(QApplication::screens().at(0)->availableSize().width()-200)/64/0.42-1, (int)(QApplication::screens().at(0)->availableSize().height())/64/0.42, this->all->text().toInt(), true);
         //randome_game_->set_number_of_zakl(this->active->text().toInt(), this->passive->text().toInt());
         randome_game_->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint);
         randome_game_->setWindowTitle("ИГРА");

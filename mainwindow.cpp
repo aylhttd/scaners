@@ -995,7 +995,7 @@ void MainWindow::light_switch(int level)
         //auto* x = this->item;
         this->item = new Pixmap(*lamps);
         //item_full_lamps->setOffset(-kvadrat->width()/2, -kvadrat->height()/2);
-        this->item->setPos(0,0);
+        this->item->setPos(-150, -535);
         //item_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
         this->item->setVisible(1);
         this->item->setOffset(183, 654);

@@ -120,7 +120,7 @@ public:
                     full_lamps->load(":/new/prefix1/1lamp_A.png");
                     Pixmap *item_full_lamps = new Pixmap(*full_lamps);
                     //item_full_lamps->setOffset(-kvadrat->width()/2, -kvadrat->height()/2);
-                    item_full_lamps->setPos(0, 0);
+                    item_full_lamps->setPos(-150, -535);
                     item_full_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
                     item_full_lamps->setVisible(1);
                     //item_full_lamps->setRotation(270);
@@ -136,7 +136,7 @@ public:
                     full_lamps->load(":/new/prefix1/full_lamps.png");
                     Pixmap *item_full_lamps = new Pixmap(*full_lamps);
                     //item_full_lamps->setOffset(-kvadrat->width()/2, -kvadrat->height()/2);
-                    item_full_lamps->setPos(0, 0);
+                    item_full_lamps->setPos(-150, 50);
                     item_full_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
                     item_full_lamps->setVisible(1);
                     //item_full_lamps->setRotation(270);
@@ -204,11 +204,12 @@ public:
         full_lamps->load(":/new/prefix1/full_lamps.png");
         Pixmap *item_full_lamps = new Pixmap(*full_lamps);
         //item_full_lamps->setOffset(-kvadrat->width()/2, -kvadrat->height()/2);
-        item_full_lamps->setPos(0, 190.92);
+        item_full_lamps->setPos(-150, 50);
         item_full_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
         item_full_lamps->setVisible(1);
+        item_full_lamps->setOffset(183, 361);
         //item_full_lamps->setRotation(270);
-        item_full_lamps->setScale(0.6);
+        //item_full_lamps->setScale(0.6);
         //scene->list_of_l.push_back(full_lamps);
         //scene->list_of_lamps.push_back(item_full_lamps);
         scene->pushItem(item_full_lamps);
