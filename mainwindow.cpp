@@ -40,7 +40,7 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
 
 
     scene->setSceneRect(0, 0, 64 * (this->weight_of_map), 64 * (this->height_of_map));
-    scene_for_lights->setSceneRect(0,0,250,QApplication::screens().at(0)->availableSize().height());
+    scene_for_lights->setSceneRect(0,0,200,QApplication::screens().at(0)->availableSize().height());
 
 
     hbox->addWidget(view);
@@ -97,14 +97,14 @@ MainWindow::MainWindow(QDialog *parent, int weight, int height, int active, int 
         item_23->setScale(0.4);
 
         QPixmap* f20 = new QPixmap();
-        f20->load(":/new/prefix1/2f0.png");
+        f20->load(":/new/prefix1/2f.png");
         Pixmap *item_20 = new Pixmap(*f20);
         item_20->setVisible(1);
         item_20->setScale(0.4);
         item_20->setPos(80, 80);
 
         QPixmap* f30 = new QPixmap();
-        f30->load(":/new/prefix1/3f0.png");
+        f30->load(":/new/prefix1/3f.png");
         Pixmap *item_30 = new Pixmap(*f30);
         item_30->setVisible(1);
         item_30->setScale(0.4);
@@ -850,9 +850,8 @@ void MainWindow::mousePressEvent(QMouseEvent *mEvent)
 
         //и это тоже
         if(finded_signal.size() == this->map_of_all_sign.size()){
-            QMessageBox::warning(this, "Поздравляю, вы нашли закладку!", "Поздравляю, вы нашли все закладки!");
-            this->close();
-            this->_potomok->close();
+
+            this->_potomok->win();
         }
         return;
     }
@@ -995,7 +994,10 @@ void MainWindow::light_switch(int level)
         //auto* x = this->item;
         this->item = new Pixmap(*lamps);
         //item_full_lamps->setOffset(-kvadrat->width()/2, -kvadrat->height()/2);
-        this->item->setPos(-150, -535);
+        if ((int)(QApplication::screens().at(0)->availableSize().height() < 800))
+                this->item->setPos(-150, -835);
+        else
+            this->item->setPos(-150, -535);
         //item_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
         this->item->setVisible(1);
         this->item->setOffset(183, 654);
@@ -1027,6 +1029,12 @@ void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_
     QPixmap* second_formant = new QPixmap();
     QPixmap* third_formant = new QPixmap();
 
+    if (!kol_of_second_formant_and_third_formant_lights.first && !kol_of_second_formant_and_third_formant_lights.second)
+    {
+        second_formant->load(":/new/prefix1/2f.png");
+        third_formant->load(":/new/prefix1/3f.png");
+    }
+    else {
         switch (kol_of_second_formant_and_third_formant_lights.first) {
         case 0:
             //this->scene_for_lights->
@@ -1120,7 +1128,7 @@ void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_
             third_formant->load(":/new/prefix1/3f1.png");
             break;
         }
-
+}
         auto beep = max(kol_of_second_formant_and_third_formant_lights.first, kol_of_second_formant_and_third_formant_lights.second);
         /*switch (beep) {
         case 0:
@@ -1157,6 +1165,7 @@ void MainWindow::switch_formants(pair<int, int> kol_of_second_formant_and_third_
         default:
             break;
         }*/
+
 
         auto item_second = new Pixmap(*second_formant);
         item_second->setPos(80,80);

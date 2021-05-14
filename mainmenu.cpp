@@ -188,7 +188,7 @@ void mainmenu::open_password_window()
 void mainmenu::open_scan_window()
 {
     auto change_size_ = new number_of_signal_chiose(this);
-    change_size_->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
+    change_size_->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint);
     change_size_->setWindowTitle("Выберете количество сигналов");
     change_size_->showFullScreen();
 }
@@ -197,7 +197,7 @@ void mainmenu::open_game_window()
 {
     auto change_size_ = new change_size(this);
     change_size_->is_this_will_be_random_game = true;
-    change_size_->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
+    change_size_->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint);
     change_size_->setWindowTitle("Выберете количество закладок");
     change_size_->showFullScreen();    
 }
@@ -206,7 +206,7 @@ void mainmenu::open_nelin_window()
 {
     auto change_size_ = new change_size(this);
     change_size_->is_this_will_be_nelin_game = true;
-    change_size_->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
+    change_size_->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint);
     change_size_->setWindowTitle("Выберете количество закладок");
     change_size_->showFullScreen();
 }

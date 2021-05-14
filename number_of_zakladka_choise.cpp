@@ -132,7 +132,7 @@ void change_size::OK_clicked()
             if(this->is_this_will_be_nelin_game)
                 randome_game_->is_this_nelin_game = true;
         //randome_game_->set_number_of_zakl(this->active->text().toInt(), this->passive->text().toInt());
-        randome_game_->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint);
+        randome_game_->setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint);
         randome_game_->setWindowTitle("ИГРА");
         randome_game_->showFullScreen();
         //randome_game_->showMaximized();

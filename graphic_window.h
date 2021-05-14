@@ -76,6 +76,7 @@ public:
     void wheelEvent(QWheelEvent *e);
     void update_only(vector<pair<float, float>>* vec_of_graphik_of_second_formanta);
     void update_counter(QString counter);
+    void win();
 
 private:
     QBarSeries *series_2th_formanta;

@@ -120,7 +120,10 @@ public:
                     full_lamps->load(":/new/prefix1/1lamp_A.png");
                     Pixmap *item_full_lamps = new Pixmap(*full_lamps);
                     //item_full_lamps->setOffset(-kvadrat->width()/2, -kvadrat->height()/2);
-                    item_full_lamps->setPos(-150, -535);
+                    if ((int)(QApplication::screens().at(0)->availableSize().height() < 800))
+                            item_full_lamps->setPos(-150, -835);
+                    else
+                        item_full_lamps->setPos(-150, -535);
                     item_full_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
                     item_full_lamps->setVisible(1);
                     //item_full_lamps->setRotation(270);
@@ -136,7 +139,11 @@ public:
                     full_lamps->load(":/new/prefix1/full_lamps.png");
                     Pixmap *item_full_lamps = new Pixmap(*full_lamps);
                     //item_full_lamps->setOffset(-kvadrat->width()/2, -kvadrat->height()/2);
-                    item_full_lamps->setPos(-150, 50);
+                    if ((int)(QApplication::screens().at(0)->availableSize().height() < 800))
+                            item_full_lamps->setPos(-150, -250);
+                    else
+                        item_full_lamps->setPos(-150, 50);
+                    //item_full_lamps->setPos(-150, -250);
                     item_full_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
                     item_full_lamps->setVisible(1);
                     //item_full_lamps->setRotation(270);
@@ -204,7 +211,11 @@ public:
         full_lamps->load(":/new/prefix1/full_lamps.png");
         Pixmap *item_full_lamps = new Pixmap(*full_lamps);
         //item_full_lamps->setOffset(-kvadrat->width()/2, -kvadrat->height()/2);
-        item_full_lamps->setPos(-150, 50);
+
+        if ((int)(QApplication::screens().at(0)->availableSize().height() < 800))
+                item_full_lamps->setPos(-150, -250);
+        else
+            item_full_lamps->setPos(-150, 50);
         item_full_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
         item_full_lamps->setVisible(1);
         item_full_lamps->setOffset(183, 361);

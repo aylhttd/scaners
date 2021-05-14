@@ -230,6 +230,13 @@ void graphic_window::update_counter(QString counter)
     this->cntr->setText(counter_ooo);
 }
 
+void graphic_window::win()
+{
+    QMessageBox::warning(this, "Поздравляю, вы нашли закладку!", "Поздравляю, вы нашли все закладки!");
+    this->close();
+    this->_parent->close();
+}
+
 graphic_window::~graphic_window()
 {
 
