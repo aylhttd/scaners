@@ -423,7 +423,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             return;
         else {
             this->close();
-            this->_potomok!=nullptr ? this->_potomok->close() : NULL;
+            if(this->_potomok!=nullptr)
+                this->_potomok->close();
+            else
+                return;
         }
     }
     /*if(!this->is_move_possible)

@@ -288,7 +288,7 @@ public:
     bool is_this_scan_game = false;
     bool is_this_first_push_button = true;
 
-    graphic_window* _potomok;
+    graphic_window* _potomok = nullptr;
 
 
 protected slots:
