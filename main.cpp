@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
 
 
     mainmenu w;
+    w.setWindowFlags(Qt::Window | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
     w.setWindowTitle("FIELD DETECTOR");
     w.show();
 

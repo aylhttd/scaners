@@ -54,5 +54,6 @@
         <file>ab.png</file>
         <file>dver.png</file>
         <file>vopr.png</file>
+        <file>field_detector_logo.png</file>
     </qresource>
 </RCC>
