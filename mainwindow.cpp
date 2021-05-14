@@ -989,21 +989,14 @@ void MainWindow::light_switch(int level)
             lamps->load(":/new/prefix1/1lamps_A.png");
             break;
         }
-
-
-
-
         //auto* x = this->item;
         this->item = new Pixmap(*lamps);
         //item_full_lamps->setOffset(-kvadrat->width()/2, -kvadrat->height()/2);
         this->item->setPos(0,0);
         //item_lamps->setFlag(QGraphicsItem::ItemIgnoresTransformations);
         this->item->setVisible(1);
-        this->item->setScale(0.63217);
-        //item_lamps->setRotation(270);
+        this->item->setOffset(183, 654);
         this->scene_for_lights->pushItem(this->item);
-        /*if(this->item != x)
-            this->scene_for_lights->removeItem(x);*/
 
         scene_for_lights->list_of_lamps.push_back(this->item);
         scene_for_lights->list_of_l.push_back(lamps);
