@@ -5,45 +5,64 @@ mainmenu::mainmenu(QWidget *parent)
 {
     this->setStyleSheet("background-color: lightGrey;");
 
-    vbox = new QVBoxLayout(this);
+    //vbox = new QVBoxLayout(this);
 
-    vbox->setContentsMargins(100, 15, 100, 50);
-    vbox->setSpacing(50);
+    QGridLayout* gl = new QGridLayout(this);
+    gl->setSpacing(16);
+    //vbox->setContentsMargins(250, 15, 250, 50);
+    //vbox->setSpacing(50);
 
     QFont font_for_buttons("Times new roman", 14, QFont::Bold);
 
     QFont font_for_label("Times new roman", 24, QFont::ExtraBold);
 
-    title = new QLabel("FIELD DETECTOR", this);
+    title = new QLabel("", this);
     title->setFont(font_for_label);
     title->setScaledContents(true);
-    //QPixmap* title_pixmap = new QPixmap();
-    //title_pixmap->load(":/new/random_game_textures/new/random_game_textures/proekt.png");  //загрузка красного квадрата в png
-    //title->setPixmap(*title_pixmap);
+    QPixmap* title_pixmap = new QPixmap();
+    title_pixmap->load(":/new/prefix1/field_detector_logo.png");
+    title->setPixmap(*title_pixmap);
+    //title->setMinimumSize(768, 256);
+    //title->setMaximumSize(768, 256);
     //title->resize(title_pixmap->size());
     title->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    vbox->addWidget(title);
+    gl->addWidget(title, 0, 0, 1, 3);
 
-    start_with_rand = new QPushButton("Начать игру", this);
+    start_with_rand = new QPushButton("", this);
     start_with_rand->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     start_with_rand->setCursor(QCursor(Qt::PointingHandCursor));
     start_with_rand->setStyleSheet("QPushButton {     background-color: rgba(170, 85, 255, 100);     border-style: outset;     border-width: 2px;	border-radius: 10px;     border-color: rgb(85, 0, 127);     min-width: 10em;     padding:12px;} QPushButton:hover {     background-color:rgba(170, 0, 0, 100);     border-style: outset;     border-width: 2px;     border-radius: 10px;     font: bold 26px;     min-width: 10em;     padding: 6px}");
     start_with_rand->setFont(font_for_buttons);
-    vbox->addWidget(start_with_rand);
+    //start_with_rand->setMinimumSize(256, 256);
+    //start_with_rand->setMaximumSize(256, 256);
+    start_with_rand->setIcon(QIcon(":/new/prefix1/full_lamps.png"));
+    start_with_rand->setIconSize(QSize(192,192));
+    gl->addWidget(start_with_rand, 1, 0, 1, 1);
+    //vbox->addWidget(start_with_rand);
 
-    start_with_nelin = new QPushButton("Режим нелинейного сканера", this);
+    start_with_nelin = new QPushButton("", this);
     start_with_nelin->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     start_with_nelin->setCursor(QCursor(Qt::PointingHandCursor));
     start_with_nelin->setStyleSheet("QPushButton {     background-color: rgba(170, 85, 255, 100);     border-style: outset;     border-width: 2px;	border-radius: 10px;     border-color: rgb(85, 0, 127);     min-width: 10em;     padding:12px;} QPushButton:hover {     background-color:rgba(170, 0, 0, 100);     border-style: outset;     border-width: 2px;     border-radius: 10px;     font: bold 26px;     min-width: 10em;     padding: 6px}");
     start_with_nelin->setFont(font_for_buttons);
-    vbox->addWidget(start_with_nelin);
+    //start_with_nelin->setMinimumSize(256, 256);
+    //start_with_nelin->setMaximumSize(256, 256);
+    start_with_nelin->setIcon(QIcon(":/new/prefix1/full_for_button.png"));
+    start_with_nelin->setIconSize(QSize(192,192));
+    gl->addWidget(start_with_nelin, 1, 1, 1, 1);
+    //vbox->addWidget(start_with_nelin);
 
-            start_with_scan = new QPushButton("Режим осциллографа", this);
+            start_with_scan = new QPushButton("", this);
             start_with_scan->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
             start_with_scan->setCursor(QCursor(Qt::PointingHandCursor));
             start_with_scan->setStyleSheet("QPushButton {     background-color: rgba(170, 85, 255, 100);     border-style: outset;     border-width: 2px;	border-radius: 10px;     border-color: rgb(85, 0, 127);     min-width: 10em;     padding:12px;} QPushButton:hover {     background-color:rgba(170, 0, 0, 100);     border-style: outset;     border-width: 2px;     border-radius: 10px;     font: bold 26px;     min-width: 10em;     padding: 6px}");
             start_with_scan->setFont(font_for_buttons);
-            vbox->addWidget(start_with_scan);
+            //start_with_scan->setMinimumSize(256, 256);
+            //start_with_scan->setMaximumSize(256, 256);
+            start_with_scan->setIcon(QIcon(":/new/prefix1/bashenki.png"));
+            start_with_scan->setIconSize(QSize(192,192));
+            gl->addWidget(start_with_scan, 1, 2, 1, 1);
+            //vbox->addWidget(start_with_scan);
 
     /*start_with_prep = new QPushButton("Режим с преподавателем", this);
     start_with_prep->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -66,57 +85,41 @@ mainmenu::mainmenu(QWidget *parent)
     _pass->setFont(font_for_buttons);
     vbox->addWidget(_pass);*/
 
-    help_ = new QPushButton("Помощь", this);
+    help_ = new QPushButton("", this);
     help_->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     help_->setCursor(QCursor(Qt::PointingHandCursor));
     help_->setStyleSheet("QPushButton {     background-color: rgba(170, 85, 255, 100);     border-style: outset;     border-width: 2px;	border-radius: 10px;     border-color: rgb(85, 0, 127);     min-width: 10em;     padding:12px;} QPushButton:hover {     background-color:rgba(170, 0, 0, 100);     border-style: outset;     border-width: 2px;     border-radius: 10px;     font: bold 26px;     min-width: 10em;     padding: 6px}");
     help_->setFont(font_for_buttons);
-    vbox->addWidget(help_);
+    //help_->setMinimumSize(256, 256);
+    //help_->setMaximumSize(256, 256);
+    help_->setIcon(QIcon(":/new/prefix1/vopr.png"));
+    help_->setIconSize(QSize(192,192));
+    gl->addWidget(help_, 2, 0, 1, 1);
+   // vbox->addWidget(help_);
 
-    about_ = new QPushButton("О программе", this);
+    about_ = new QPushButton("", this);
     about_->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     about_->setCursor(QCursor(Qt::PointingHandCursor));
     about_->setStyleSheet("QPushButton {     background-color: rgba(170, 85, 255, 100);     border-style: outset;     border-width: 2px;	border-radius: 10px;     border-color: rgb(85, 0, 127);     min-width: 10em;     padding:12px;} QPushButton:hover {     background-color:rgba(170, 0, 0, 100);     border-style: outset;     border-width: 2px;     border-radius: 10px;  font: bold 26px;   min-width: 10em;     padding: 6px}");
     about_->setFont(font_for_buttons);
-    vbox->addWidget(about_);
+    //about_->setMinimumSize(256, 256);
+    //about_->setMaximumSize(256, 256);
+    about_->setIcon(QIcon(":/new/prefix1/ab.png"));
+    about_->setIconSize(QSize(192,192));
+    gl->addWidget(about_, 2, 1, 1, 1);
+    //vbox->addWidget(about_);
 
-    exit_ = new QPushButton("Выход", this);
+    exit_ = new QPushButton("", this);
     exit_->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     exit_->setCursor(QCursor(Qt::PointingHandCursor));
     exit_->setStyleSheet("QPushButton {      background-color: rgba(0, 0, 0, 100);     border-style: outset;     border-width: 2px;	border-radius: 10px;     border-color: rgb(85, 0, 127);     min-width: 10em;     padding:12px;} QPushButton:hover {     background-color:rgba(170, 0, 0, 100);     border-style: outset;     border-width: 2px;     border-radius: 10px;     font: bold 26px;     min-width: 10em;     padding: 6px}");
     exit_->setFont(font_for_buttons);
-    vbox->addWidget(exit_);
-
-    std::mt19937* gen = new std::mt19937(time(NULL));
-    std::uniform_int_distribution<> uid(1, 5);
-    int rint = uid(*gen);
-
-    /*QFont font_for_QTextBrowser("Times new roman", 24, QFont::ExtraBold);
-    QTextBrowser* tips = new QTextBrowser(this);
-    tips->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
-    tips->setStyleSheet("QTextBrowser {min-width: 10em;     padding:12px;}");
-    tips->setFont(font_for_QTextBrowser);
-    tips->setFocus();
-    tips->setFontItalic(true);
-    tips->append("Совет дня: \n");
-    switch (rint) {
-    case 1:
-        tips->append("Закладки могут быть не только в мебели, но и в стенах!");
-        break;
-    case 2:
-        tips->append("Активные полупроводники находятся на частоте от 800, до 1200Мгц!");
-        break;
-    case 3:
-        tips->append("Bluetooth находится на частоте от 2400, до 2500Мгц!");
-        break;
-    case 4:
-        tips->append("Ничего не получается? Загляните во вкладку \"Помощь\"");
-        break;
-    case 5:
-        tips->append("Видишь сигнал? И я не вижу, а он есть.");
-        break;
-    }*/
-    //vbox->addWidget(tips);
+    //exit_->setMinimumSize(256, 256);
+    //exit_->setMaximumSize(256, 256);
+    exit_->setIcon(QIcon(":/new/prefix1/dver.png"));
+    exit_->setIconSize(QSize(192,192));
+    gl->addWidget(exit_, 2, 2, 1, 1);
+    //vbox->addWidget(exit_);
 
     connect(exit_, &QPushButton::clicked, qApp, &QApplication::quit);
     connect(help_, &QPushButton::clicked, this, &mainmenu::open_help_window);
@@ -128,7 +131,7 @@ mainmenu::mainmenu(QWidget *parent)
     //connect(_pass, &QPushButton::clicked, this, &mainmenu::open_password_window);
     //connect(start_with_con, &QPushButton::clicked, this, &mainmenu::open_con_window);
 
-    this->setMinimumSize(720, 420);
+    this->setMinimumSize(800, 544);
     //this->showMaximized();
 }
 

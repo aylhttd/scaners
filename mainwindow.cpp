@@ -269,15 +269,12 @@ void MainWindow::add_zakl()
 
 void MainWindow::generate_scaners_ist(int number)
 {
-    //enum type_of_fluctuation{bluetooth_, _5g_, _4g_, _3g_, GPS_, radio_, GLONASS_};
-
-
     for(int i = 0; i < number; ++i){
         label:
         type_of_fluctuation t = (type_of_fluctuation)this->generate_random_int_number(0, 6);
         int height_of_this_sign = this->generate_random_int_number(0, this->height_of_map - 1);
         int weight_of_this_sign = this->generate_random_int_number(0, this->weight_of_map - 1);
-        float power = this->generate_random_int_number(15, 80);
+        float power = this->generate_random_int_number(50, 80);
 
         if((height_of_this_sign == 0 || (weight_of_this_sign == 0)) || map_of_all_zakl.find(make_pair(height_of_this_sign, weight_of_this_sign)) != map_of_all_zakl.end())
             goto label;
@@ -327,7 +324,7 @@ void MainWindow::generate_graphik_perems()
 
     //удаление "Затухших" флуктуаций
     for(auto i = vec_of_visible_fluct.begin(); i != vec_of_visible_fluct.end();)
-        if((*i).second.second < 8)
+        if(abs((*i).second.second) < 15)
             i = vec_of_visible_fluct.erase(i);
         else
             ++i;
@@ -374,8 +371,8 @@ void MainWindow::generate_graphik_perems()
         break;
 
         case radio_:
-            //420-434
-            this->add_concret_fluct_second_formanta(420, 14, power_of_fluct);
+            //450-464
+            this->add_concret_fluct_second_formanta(450, 14, power_of_fluct);
         break;
 
         case GLONASS_:
@@ -397,9 +394,9 @@ void MainWindow::add_concret_fluct_second_formanta(int start, int length, float 
         bool is_power_wil_be_lower_than_etalon = this->generate_random_int_number(0, 1);
         float power_of_this_ots;
         if(is_power_wil_be_lower_than_etalon)
-            power_of_this_ots = power_of_fluct + (this->generate_random_int_number(1, power_of_fluct * 0.1));
+            power_of_this_ots = power_of_fluct + (this->generate_random_int_number(1, static_cast<int>(ceil(power_of_fluct * 0.1))));
         else
-            power_of_this_ots = power_of_fluct + (- this->generate_random_int_number(1, power_of_fluct * 0.1));
+            power_of_this_ots = power_of_fluct + (- this->generate_random_int_number(1, static_cast<int>(ceil(power_of_fluct * 0.1))));
         this->vec_of_graphik_of_second_formanta->operator[](start + i - 450) = make_pair(this->vec_of_graphik_of_second_formanta->operator[](start + i - 450).first, power_of_this_ots);
     }
 }
@@ -852,6 +849,7 @@ void MainWindow::mousePressEvent(QMouseEvent *mEvent)
         if(finded_signal.size() == this->map_of_all_sign.size()){
             QMessageBox::warning(this, "Поздравляю, вы нашли закладку!", "Поздравляю, вы нашли все закладки!");
             this->close();
+            this->_potomok->close();
         }
         return;
     }

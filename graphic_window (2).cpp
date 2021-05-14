@@ -1,4 +1,4 @@
-﻿#include "graphic_window.h"
+#include "graphic_window.h"
 
 graphic_window::graphic_window(vector<pair<float, float> > *vec_of_graphik_of_second_formanta, QWidget *parent, QString counter) : vec_of_graphik_of_second_formanta(vec_of_graphik_of_second_formanta)
 {
@@ -34,13 +34,13 @@ graphic_window::graphic_window(vector<pair<float, float> > *vec_of_graphik_of_se
     this->series_2th_formanta = new QBarSeries(chart_2th_formanta);
     //this->series_3th_formanta = new QBarSeries(chart_2th_formanta);
 
-    QBarSet *set = new QBarSet("№1 450-550 МГц");
+    QBarSet *set = new QBarSet("№1 450-500 МГц");
     //добавление первых 50 отсчетов на график
 
     QStringList categories;
 
     //выборка второй форманты
-    for(int i = 0; i < 101; ++i){
+    for(int i = 0; i < 51; ++i){
         categories << QString::number(this->vec_of_graphik_of_second_formanta->operator[](i).first);
         *set << this->vec_of_graphik_of_second_formanta->operator[](i).second;
     }
@@ -60,14 +60,14 @@ graphic_window::graphic_window(vector<pair<float, float> > *vec_of_graphik_of_se
     axisX = new QBarCategoryAxis();
     axisX->setTitleFont(font_for_axis);
     axisX->append(categories);
-    axisX->setRange("450", "550");
-    this->_now_range_2th_command = make_pair(450, 550);
+    axisX->setRange("450", "500");
+    this->_now_range_2th_command = make_pair(450, 500);
     chart_2th_formanta->setAxisX(axisX, series_2th_formanta);
     series_2th_formanta->attachAxis(axisX);
 
     this->axisY = new QValueAxis();
-    this->axisY->setRange(0., 80.);
-    _now_range_2th_command_y = make_pair(0., 80.);
+    this->axisY->setRange(0., 60.);
+    _now_range_2th_command_y = make_pair(0., 60.);
     chart_2th_formanta->addAxis(this->axisY, Qt::AlignLeft);
     series_2th_formanta->attachAxis(this->axisY);
 
@@ -109,7 +109,7 @@ void graphic_window::wheelEvent(QWheelEvent *e)
             this->_now_range_2th_command = make_pair(this->_now_range_2th_command.first + 50, this->_now_range_2th_command.second + 50);
             //this->axisX->setRange(QString::number(this->_now_range_2th_command.first), QString::number(this->_now_range_2th_command.second));
 
-            //axisX->clear();
+            axisX->clear();
             series_2th_formanta->clear();
 
             //QBarSet *set_3th_formanta = new QBarSet(QString::number(this->_now_range_2th_command.first) + "-" + QString::number(this->_now_range_2th_command.second) + " МГц");
@@ -122,15 +122,8 @@ void graphic_window::wheelEvent(QWheelEvent *e)
             }
 
             series_2th_formanta->append(set);
-
-            auto shit = axisX->categories();
-            auto shit_iter = shit.begin();
-            for(auto &obj : categories){
-                axisX->replace(*shit_iter, obj);  //и тут
-                ++shit_iter;
-            }
             //series_2th_formanta->append(set_3th_formanta);
-            //axisX->append(categories);
+            axisX->append(categories);
             axisX->setRange(QString::number(this->_now_range_2th_command.first), (QString::number(this->_now_range_2th_command.second)));
 
             this->chartView_2th_formanta->chart()->update();
@@ -143,7 +136,7 @@ void graphic_window::wheelEvent(QWheelEvent *e)
             this->_now_range_2th_command = make_pair(this->_now_range_2th_command.first - 50, this->_now_range_2th_command.second - 50);
             //this->axisX->setRange(QString::number(this->_now_range_2th_command.first), QString::number(this->_now_range_2th_command.second));
 
-            //axisX->clear();
+            axisX->clear();
             series_2th_formanta->clear();
 
             //QBarSet *set_3th_formanta = new QBarSet(QString::number(this->_now_range_2th_command.first) + "-" + QString::number(this->_now_range_2th_command.second) + " МГц");
@@ -156,42 +149,24 @@ void graphic_window::wheelEvent(QWheelEvent *e)
             }
 
             series_2th_formanta->append(set);
-
-            auto shit = axisX->categories();
-            auto shit_iter = shit.begin();
-            for(auto &obj : categories){
-                axisX->replace(*shit_iter, obj);  //и тут
-                ++shit_iter;
-            }
-
             //series_2th_formanta->append(set_3th_formanta);
-            //axisX->append(categories);
+            axisX->append(categories);
             axisX->setRange(QString::number(this->_now_range_2th_command.first), (QString::number(this->_now_range_2th_command.second)));
 
-            //this->chartView_2th_formanta->chart()->update();
+            this->chartView_2th_formanta->chart()->update();
         }
     }
 
 }
 
-#include <unordered_set>
-
 void graphic_window::update_only(vector<pair<float, float> > *vec_of_graphik_of_second_formanta)
-{   //нужно переносить фокус на позицию с максимально амплитудной частотой в данной клетке
-
-
+{
     this->vec_of_graphik_of_second_formanta = vec_of_graphik_of_second_formanta;
+
+    axisX->clear();
     series_2th_formanta->clear();
 
-    auto max_elem = std::max_element(vec_of_graphik_of_second_formanta->begin(), vec_of_graphik_of_second_formanta->end(), [&](pair<float, float> a, pair<float, float> b){
-            return (a.second < b.second);
-}); //поиск среди second    //Слишком медленно!
-
-    int index_of_max_element = std::distance(vec_of_graphik_of_second_formanta->begin(), max_elem);
-
-    int sotnya = std::floor((double)index_of_max_element / 100);
     //QBarSet *set_3th_formanta = new QBarSet(QString::number(this->_now_range_2th_command.first) + "-" + QString::number(this->_now_range_2th_command.second) + " МГц");
-    this->_now_range_2th_command = make_pair(sotnya * 100 + 450, sotnya * 100 + 550);
     QBarSet *set = new QBarSet(QString::number(this->_now_range_2th_command.first) + "-" + QString::number(this->_now_range_2th_command.second) + " МГц");
     QStringList categories;
 
@@ -200,24 +175,11 @@ void graphic_window::update_only(vector<pair<float, float> > *vec_of_graphik_of_
         *set << this->vec_of_graphik_of_second_formanta->operator[](i - 450).second;
     }
 
-
     series_2th_formanta->append(set);
     //series_2th_formanta->append(set_3th_formanta);
-//auto t1 = std::chrono::high_resolution_clock::now();
-
-auto shit = axisX->categories();
-auto shit_iter = shit.begin();
-for(auto &obj : categories){
-    axisX->replace(*shit_iter, obj);  //и тут
-    ++shit_iter;
-}
-
-//auto t2 = std::chrono::high_resolution_clock::now();
-//qDebug() << std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count();
+    axisX->append(categories);
     axisX->setRange(QString::number(this->_now_range_2th_command.first), (QString::number(this->_now_range_2th_command.second)));
 
-
-    //int blyadovka1 = 0;
     //this->chartView_2th_formanta->chart()->update();
 
 
