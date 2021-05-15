@@ -3,6 +3,8 @@
 #pragma once
 
 #include "number_of_zakladka_choise.h"
+#include "help_window.h"
+#include "about_dialog.h"
 
 class mainmenu : public QWidget
 {

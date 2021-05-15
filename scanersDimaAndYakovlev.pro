@@ -12,7 +12,9 @@ CONFIG += c++17
 RC_ICONS = bashenki.ico
 
 SOURCES += \
+    about_dialog.cpp \
     graphic_window.cpp \
+    help_window.cpp \
     main.cpp \
     mainmenu.cpp \
     mainwindow.cpp \
@@ -20,13 +22,17 @@ SOURCES += \
     number_of_zakladka_choise.cpp
 
 HEADERS += \
+    about_dialog.h \
     graphic_window.h \
+    help_window.h \
     mainmenu.h \
     mainwindow.h \
     number_of_signal_chiose.h \
     number_of_zakladka_choise.h
 
 FORMS += \
+    about_dialog.ui \
+    help_window.ui \
     mainwindow.ui
 
 # Default rules for deployment.

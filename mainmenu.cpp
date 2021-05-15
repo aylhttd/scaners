@@ -28,6 +28,8 @@ mainmenu::mainmenu(QWidget *parent)
     title->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
     gl->addWidget(title, 0, 0, 1, 3);
 
+    float shit = QApplication::desktop()->screenGeometry().width();
+
     start_with_rand = new QPushButton("", this);
     start_with_rand->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     start_with_rand->setCursor(QCursor(Qt::PointingHandCursor));
@@ -36,7 +38,7 @@ mainmenu::mainmenu(QWidget *parent)
     //start_with_rand->setMinimumSize(256, 256);
     //start_with_rand->setMaximumSize(256, 256);
     start_with_rand->setIcon(QIcon(":/new/prefix1/full_lamps.png"));
-    start_with_rand->setIconSize(QSize(192,192));
+    start_with_rand->setIconSize(QSize((float)128. * (shit / 1920),(float)128. * (shit / 1920)));
     gl->addWidget(start_with_rand, 1, 0, 1, 1);
     //vbox->addWidget(start_with_rand);
 
@@ -48,7 +50,7 @@ mainmenu::mainmenu(QWidget *parent)
     //start_with_nelin->setMinimumSize(256, 256);
     //start_with_nelin->setMaximumSize(256, 256);
     start_with_nelin->setIcon(QIcon(":/new/prefix1/full_for_button.png"));
-    start_with_nelin->setIconSize(QSize(192,192));
+    start_with_nelin->setIconSize(QSize((float)128. * (shit / 1920),(float)128. * (shit / 1920)));
     gl->addWidget(start_with_nelin, 1, 1, 1, 1);
     //vbox->addWidget(start_with_nelin);
 
@@ -60,7 +62,7 @@ mainmenu::mainmenu(QWidget *parent)
             //start_with_scan->setMinimumSize(256, 256);
             //start_with_scan->setMaximumSize(256, 256);
             start_with_scan->setIcon(QIcon(":/new/prefix1/bashenki.png"));
-            start_with_scan->setIconSize(QSize(192,192));
+            start_with_scan->setIconSize(QSize((float)128. * (shit / 1920),(float)128. * (shit / 1920)));
             gl->addWidget(start_with_scan, 1, 2, 1, 1);
             //vbox->addWidget(start_with_scan);
 
@@ -93,7 +95,7 @@ mainmenu::mainmenu(QWidget *parent)
     //help_->setMinimumSize(256, 256);
     //help_->setMaximumSize(256, 256);
     help_->setIcon(QIcon(":/new/prefix1/vopr.png"));
-    help_->setIconSize(QSize(192,192));
+    help_->setIconSize(QSize((float)128. * (shit / 1920),(float)128. * (shit / 1920)));
     gl->addWidget(help_, 2, 0, 1, 1);
    // vbox->addWidget(help_);
 
@@ -105,7 +107,7 @@ mainmenu::mainmenu(QWidget *parent)
     //about_->setMinimumSize(256, 256);
     //about_->setMaximumSize(256, 256);
     about_->setIcon(QIcon(":/new/prefix1/ab.png"));
-    about_->setIconSize(QSize(192,192));
+    about_->setIconSize(QSize((float)128. * (shit / 1920),(float)128. * (shit / 1920)));
     gl->addWidget(about_, 2, 1, 1, 1);
     //vbox->addWidget(about_);
 
@@ -117,7 +119,7 @@ mainmenu::mainmenu(QWidget *parent)
     //exit_->setMinimumSize(256, 256);
     //exit_->setMaximumSize(256, 256);
     exit_->setIcon(QIcon(":/new/prefix1/dver.png"));
-    exit_->setIconSize(QSize(192,192));
+    exit_->setIconSize(QSize((float)128. * (shit / 1920),(float)128. * (shit / 1920)));
     gl->addWidget(exit_, 2, 2, 1, 1);
     //vbox->addWidget(exit_);
 
@@ -132,6 +134,7 @@ mainmenu::mainmenu(QWidget *parent)
     //connect(start_with_con, &QPushButton::clicked, this, &mainmenu::open_con_window);
 
     this->setMinimumSize(800, 544);
+    this->setMaximumSize(800, 544);
     //this->showMaximized();
 }
 
@@ -142,26 +145,23 @@ void mainmenu::mousePressEvent(QGraphicsSceneMouseEvent  *mEvent)
 
 void mainmenu::open_help_window() const
 {
-    /*help* _help_window = new help();
+    help_window* _help_window = new help_window();
     _help_window->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint | Qt::WindowMinimizeButtonHint);
     _help_window->setWindowTitle("Помощь");
     _help_window->setMinimumSize(480, 320);
-    _help_window->show();*/
+    _help_window->show();
 }
 
 void mainmenu::open_about_window() const
 {
-    /*auto dialog_for_about = new about();
+    auto* dialog_for_about = new about_dialog();
     dialog_for_about->setWindowFlags(Qt::Window | Qt::WindowCloseButtonHint);
     dialog_for_about->setWindowTitle("О программе");
     dialog_for_about->setMinimumSize(480, 320);
     dialog_for_about->setMaximumSize(480, 320);
     dialog_for_about->setModal(true);
-    dialog_for_about->exec();*/
+    dialog_for_about->exec();
 
-    /*MainWindow w(nullptr, (int)(QApplication::screens().at(0)->availableSize().width())/64/0.42-1, (int)(QApplication::screens().at(0)->availableSize().height()-125)/64/0.42);
-    w.setWindowFlags(Qt::FramelessWindowHint| Qt::WindowStaysOnTopHint);
-    w.showFullScreen();*/
 }
 
 void mainmenu::open_password_window()
